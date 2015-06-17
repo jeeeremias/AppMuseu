@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Macs</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_section4">Section 4</string>
+
+    <string name="home_item">Início</string>
+    <string name="agenda_item">Agenda</string>
+    <string name="gallery_item">Galeria</string>
+    <string name="news_item">Notícias</string>
+    <string name="whatisMACS"><h1><strong>O MACS</strong></h1><br/>Museu de Arte Contemporânea de Sorocaba, é uma instituição cultural eminentemente artística e educativa, espaço dinâmico e plural que prioriza a difusão das artes visuais. É uma instituição aberta e acessível a todas as camadas da população e seu acervo terá foco na arte contemporânea brasileira.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>s
+
+    <string name="action_settings">Settings</string>
+
+    <string name="action_example">Example</string>
+
+    <string name="app_id">1575018132781478</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_agenda_fragment">Hello agenda fragment</string>
+    <string name="hello_gallery_fragment">Hello gallery fragment</string>
+    <string name="hello_news_fragment">Hello news fragment</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
