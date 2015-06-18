@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -42,6 +43,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ImageView mainImageView;
 
     /**
      * Required variables to login facebook
@@ -123,7 +125,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -131,6 +133,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mainImageView = (ImageView) view.findViewById(R.id.imageView);
+        mainImageView.setImageResource(R.drawable.imagehome01);
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
         List<String> permissions = new ArrayList<String>();
         permissions.add("public_profile");
@@ -138,7 +142,7 @@ public class HomeFragment extends Fragment {
         loginButton.setFragment(this);
         loginButton.registerCallback(mCallbackManager, mFacebookCallback);
 
-        Button button = (Button) view.findViewById(R.id.button);
+        Button button = (Button) view.findViewById(R.id.login_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
