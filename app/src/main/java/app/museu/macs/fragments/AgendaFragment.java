@@ -1,23 +1,25 @@
-package app.museu.macs;
+package app.museu.macs.fragments;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
+
+import app.museu.macs.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NewsFragment.OnFragmentInteractionListener} interface
+ * {@link AgendaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NewsFragment#newInstance} factory method to
+ * Use the {@link AgendaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewsFragment extends Fragment {
+public class AgendaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,19 +41,18 @@ public class NewsFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param tittle Parameter 1.
-     * @return A new instance of fragment NewsFragment.
+     * @return A new instance of fragment AgendaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewsFragment newInstance(String tittle) {
-        NewsFragment fragment = new NewsFragment();
+    public static AgendaFragment newInstance(String titlle) {
+        AgendaFragment fragment = new AgendaFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, tittle);
+        args.putString(ARG_SECTION_NUMBER, titlle);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public NewsFragment() {
+    public AgendaFragment() {
         // Required empty public constructor
     }
 
@@ -68,8 +69,7 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        return inflater.inflate(R.layout.fragment_news, container, false);
+        return inflater.inflate(R.layout.fragment_agenda, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

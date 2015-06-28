@@ -1,6 +1,11 @@
-package app.museu.macs;
+package app.museu.macs.util;
 
 import android.support.v4.app.Fragment;
+
+import app.museu.macs.fragments.GalleryFragment;
+import app.museu.macs.fragments.HomeFragment;
+import app.museu.macs.fragments.NewsFragment;
+import app.museu.macs.fragments.AgendaFragment;
 
 /**
  * Created by jeremias on 06/06/15.
