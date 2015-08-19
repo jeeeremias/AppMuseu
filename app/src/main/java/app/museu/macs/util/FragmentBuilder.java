@@ -3,6 +3,7 @@ package app.museu.macs.util;
 import android.support.v4.app.Fragment;
 
 import app.museu.macs.fragments.GalleryFragment;
+import app.museu.macs.fragments.GetAgendaFragment;
 import app.museu.macs.fragments.HomeFragment;
 import app.museu.macs.fragments.NewsFragment;
 import app.museu.macs.fragments.AgendaFragment;
@@ -21,7 +22,7 @@ public class FragmentBuilder {
                 mFragment = NewsFragment.newInstance(name);
                 break;
             case 2:
-                mFragment = AgendaFragment.newInstance(name);
+                mFragment = GetAgendaFragment.newInstance(name);
                 break;
             case 3:
                 mFragment = GalleryFragment.newInstance(name);

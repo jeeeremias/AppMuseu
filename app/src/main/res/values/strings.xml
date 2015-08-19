@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Macs</string>
+    <string name="app_name">MACS</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -20,6 +20,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_example">Example</string>
     <string name="app_id">1575018132781478</string>
+    <string name="API_key">AIzaSyDlNkof1d48wfW-vpZ08RmuLwgDOqHAyX4</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_agenda_fragment">Hello agenda fragment</string>
