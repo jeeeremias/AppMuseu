@@ -36,13 +36,13 @@ public class ProfilePhoto extends AsyncHomeActivityTasks {
         GraphRequest picGraphRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), "/me/picture", new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse graphResponse) {
-
+                // Finish
             }
         });
         Bundle picParameters = new Bundle();
         picParameters.putString("redirect", "false");
-        picParameters.putInt("height", 200);
-        picParameters.putInt("width", 200);
+        picParameters.putInt("height", 150);
+        picParameters.putInt("width", 150);
         picGraphRequest.setParameters(picParameters);
         GraphResponse picGraphResponse = picGraphRequest.executeAndWait();
         Bitmap bitmap = null;

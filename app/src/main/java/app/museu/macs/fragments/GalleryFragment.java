@@ -7,8 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.museu.macs.R;
+import app.museu.macs.activities.HomeActivity;
+import app.museu.macs.adapters.GalleryAdapter;
+import app.museu.macs.model.GalleryPhoto;
+import app.museu.macs.util.MyApplication;
 
 
 /**
@@ -30,12 +38,14 @@ public class GalleryFragment extends Fragment {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private List<GalleryPhoto> galleryPhotos = new ArrayList<GalleryPhoto>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private HomeActivity homeActivity;
 
     /**
      * Use this factory method to create a new instance of
@@ -45,11 +55,12 @@ public class GalleryFragment extends Fragment {
      * @return A new instance of fragment GalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(String titlle) {
+    public static GalleryFragment newInstance(HomeActivity homeActivity, String titlle) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_NUMBER, titlle);
         fragment.setArguments(args);
+        fragment.setHomeActivity(homeActivity);
         return fragment;
     }
 
@@ -70,7 +81,10 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
+        View view = inflater.inflate(R.layout.fragment_gallery, container, false);
+        GridView gridViewGallery = (GridView) view.findViewById(R.id.gridViewGalery);
+        gridViewGallery.setAdapter(new GalleryAdapter(MyApplication.getAppContext(), galleryPhotos, getHomeActivity().getImageLoader()));
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,5 +119,14 @@ public class GalleryFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+    public HomeActivity getHomeActivity() {
+        return homeActivity;
+    }
+
+    public void setHomeActivity(HomeActivity homeActivity) {
+        this.homeActivity = homeActivity;
+    }
+
 
 }

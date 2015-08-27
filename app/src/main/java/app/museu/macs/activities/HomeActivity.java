@@ -20,6 +20,10 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.Arrays;
 import app.museu.macs.R;
 import app.museu.macs.async.ProfilePhoto;
@@ -33,6 +37,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     private HelpLiveo mHelpLiveo;
     final private String sourcePhoto = "userPhoto";
+    private ImageLoader imageLoader;
 
     /**
      * Required variables to login Facebook
@@ -76,6 +81,22 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                         // App code
                     }
                 });
+
+        //Universal Image Loader
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.imgnotavailable)
+                .showImageOnFail(R.drawable.imgnotavailable)
+                .showImageOnLoading(R.drawable.loading)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(displayImageOptions)
+                .memoryCacheSize(2 * 1024)
+                .diskCacheSize(10 * 1024)
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(imageLoaderConfiguration);
     }
 
     @Override
@@ -115,7 +136,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     @Override
     public void onItemClick(int position) {
         FragmentManager mFragmentManager = getSupportFragmentManager();
-        Fragment mFragment = new FragmentBuilder().newFragment(mHelpLiveo.get(position).getName(), position);
+        Fragment mFragment = new FragmentBuilder().newFragment(this, mHelpLiveo.get(position).getName(), position);
 
         if (mFragment != null){
             mFragmentManager.beginTransaction().replace(R.id.container, mFragment).commit();
@@ -195,5 +216,9 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         } else {
             LoginManager.getInstance().logOut();
         }
+    }
+
+    public ImageLoader getImageLoader() {
+        return imageLoader;
     }
 }
