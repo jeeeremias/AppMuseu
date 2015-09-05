@@ -1,18 +1,13 @@
 package app.museu.macs.activities;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.PersistableBundle;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -23,15 +18,13 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
 import app.museu.macs.R;
 import app.museu.macs.async.ProfilePhoto;
 import app.museu.macs.util.FragmentBuilder;
@@ -43,46 +36,39 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces.OnItemClickListener {
 
     private HelpLiveo mHelpLiveo;
-    private String sourcePhoto = "userPhoto";
+    final private String sourcePhoto = "userPhoto";
+    private ImageLoader imageLoader;
 
     /**
-     * Required variables to login facebook
+     * Required variables to login Facebook
      */
     private AccessToken accessToken;
     private Profile profile;
     private CallbackManager callbackManager;
-    private ProfileTracker profileTracker;
     private AccessTokenTracker tokenTracker;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        // Facebook implementations
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         accessToken = AccessToken.getCurrentAccessToken();
         profile = Profile.getCurrentProfile();
-
         tokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 accessToken = currentAccessToken;
                 profile = Profile.getCurrentProfile();
-                updateMenu();
-                updateHeaderFooter();
+                updateDrawerNavigation();
             }
         };
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        updateMenu();
-
+                        // App code
                     }
 
                     @Override
@@ -95,8 +81,27 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                         // App code
                     }
                 });
-        updateHeaderFooter();
-        updateMenu();
+
+        //Universal Image Loader
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.imgnotavailable)
+                .showImageOnFail(R.drawable.imgnotavailable)
+                .showImageOnLoading(R.drawable.loading)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(displayImageOptions)
+                .memoryCacheSize(2 * 1024)
+                .diskCacheSize(10 * 1024)
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(imageLoaderConfiguration);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -108,7 +113,12 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     protected void onStop() {
         super.onStop();
         tokenTracker.stopTracking();
-        profileTracker.stopTracking();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        tokenTracker.startTracking();
     }
 
     @Override
@@ -120,12 +130,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     @Override
     public void onInt(Bundle bundle) {
         createMenu();
+        updateDrawerNavigation();
     }
 
     @Override
     public void onItemClick(int position) {
         FragmentManager mFragmentManager = getSupportFragmentManager();
-        Fragment mFragment = new FragmentBuilder().newFragment(mHelpLiveo.get(position).getName(), position);
+        Fragment mFragment = new FragmentBuilder().newFragment(this, mHelpLiveo.get(position).getName(), position);
 
         if (mFragment != null){
             mFragmentManager.beginTransaction().replace(R.id.container, mFragment).commit();
@@ -172,60 +183,42 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 .build();
     }
 
-    public void updateMenu() {
+    public void updateDrawerNavigation() {
         boolean value;
         if (accessToken == null) {
+            this.userName.setText("User");
+            this.userPhoto.setImageResource(R.drawable.noprofilephoto);
+            this.footerItem(R.string.login, R.drawable.fbicon);
             value = false;
         } else {
+            this.userName.setText(profile.getFirstName());
+            Bitmap bitmapFromArchive = BitmapFactory.decodeFile(getApplicationContext().getFilesDir() + "/" + sourcePhoto);
+            if (bitmapFromArchive == null) {
+                new ProfilePhoto(this).execute();
+            } else {
+                this.userPhoto.setImageBitmap(bitmapFromArchive);
+            }
+            this.footerItem(R.string.logout, R.drawable.fbicon);
             value = true;
         }
         this.setVisibleItemNavigation(1, value);
         this.setVisibleItemNavigation(2, value);
         this.setVisibleItemNavigation(3, value);
         if (this.getCurrentPosition() != 0) {
-            onItemClick(0);
+            this.onItemClick(0);
         }
 
-    }
-
-    public void updateHeaderFooter() {
-        if (accessToken == null) {
-            this.userName.setText("User");
-            this.userPhoto.setImageResource(R.drawable.noprofilephoto);
-            this.footerItem(R.string.login, R.drawable.fbicon);
-        } else {
-            this.footerItem(R.string.logout, R.drawable.fbicon);
-            this.userName.setText(profile.getFirstName());
-            Bitmap bitmapFromArchive = BitmapFactory.decodeFile(getApplicationContext().getFilesDir() + "/" + sourcePhoto);
-            if (bitmapFromArchive == null) {
-                getProfilePhoto();
-            } else {
-                this.userPhoto.setImageBitmap(bitmapFromArchive);
-            }
-        }
     }
 
     public void loginFacebook() {
         if(accessToken == null) {
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_photos"));
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         } else {
             LoginManager.getInstance().logOut();
         }
     }
 
-    private void getProfilePhoto() {
-        ProfilePhoto profilePhoto = new ProfilePhoto();
-        try {
-            Bitmap userPhoto = profilePhoto.execute().get();
-            FileOutputStream fileOutputStream = getApplicationContext().openFileOutput(sourcePhoto, Context.MODE_PRIVATE);
-            userPhoto.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            this.userPhoto.setImageBitmap(userPhoto);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public ImageLoader getImageLoader() {
+        return imageLoader;
     }
 }
