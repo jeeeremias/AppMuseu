@@ -52,6 +52,7 @@ public class CalendarEvents extends AsyncHomeActivityTasks {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
             URL url = new URL("https://www.googleapis.com/calendar/v3/calendars/com.macs@gmail.com/events?" +
+                    "singleEvents=true&" +
                     "timeMin=" + sdf.format(timeMin.getTime()) +
                     "&" + "timeMax=" + sdf.format(timeMax.getTime()) +
                     "&" + "key=" + GetMetaData.getGoogleKeyAPI());
@@ -75,7 +76,6 @@ public class CalendarEvents extends AsyncHomeActivityTasks {
                 }
             }
             callAgendaFragment(weekViewEvents);
-            Log.i("Response:", responseJson.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

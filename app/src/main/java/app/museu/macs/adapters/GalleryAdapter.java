@@ -59,30 +59,30 @@ public class GalleryAdapter extends BaseAdapter {
         }
         imageView = (ImageView) convertView.findViewById(R.id.galleryImageItem);
 
-        imageLoader.displayImage(galleryAdapter.getUri(), imageView, null, new ImageLoadingListener() {
+        imageLoader.displayImage(galleryAdapter.getUriPicture(), imageView, null, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                Log.i("ImageLoading", "onLoadingStarted");
+
             }
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                Log.i("ImageLoading", "onLoadingFailed");
+
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                Log.i("ImageLoading", "onLoadingComplete");
+
             }
 
             @Override
             public void onLoadingCancelled(String imageUri, View view) {
-                Log.i("ImageLoading", "onLoadingCancelled");
+
             }
         }, new ImageLoadingProgressListener() {
             @Override
             public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                Log.i("Progress", current + "/" + total);
+
             }
         });
 

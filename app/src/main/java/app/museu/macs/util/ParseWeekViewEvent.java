@@ -47,7 +47,7 @@ public class ParseWeekViewEvent {
         }
 
         weekViewEvent.setStartTime(startDateTime);
-        weekViewEvent.setColor(R.color.nliveo_red_colorPrimary);
+        weekViewEvent.setColor(R.color.red);
 
         try {
             end = json.getJSONObject("end").getString("dateTime");
@@ -64,8 +64,6 @@ public class ParseWeekViewEvent {
             endDateTime.set(Calendar.HOUR_OF_DAY, 23);
         }
         weekViewEvent.setEndTime(endDateTime);
-
-        Log.i("Event " + id, "Inicio: " + weekViewEvent.getStartTime() + " - " + "Fim: " + weekViewEvent.getEndTime());
 
         return weekViewEvent;
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -38,6 +39,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     private HelpLiveo mHelpLiveo;
     final private String sourcePhoto = "userPhoto";
     private ImageLoader imageLoader;
+    private Fragment currentFragment;
 
     /**
      * Required variables to login Facebook
@@ -61,14 +63,17 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 accessToken = currentAccessToken;
                 profile = Profile.getCurrentProfile();
-                updateDrawerNavigation();
             }
         };
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        // App code
+                        if(loginResult != null) {
+                            updateLogin();
+                        } else {
+                            updateLogout();
+                        }
                     }
 
                     @Override
@@ -92,8 +97,9 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 .build();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(displayImageOptions)
-                .memoryCacheSize(2 * 1024)
-                .diskCacheSize(10 * 1024)
+                .writeDebugLogs()
+                .memoryCacheSize(2 * 1024 * 1024)
+                .diskCacheSize(10 * 1024 * 1024)
                 .build();
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(imageLoaderConfiguration);
@@ -119,6 +125,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     protected void onStart() {
         super.onStart();
         tokenTracker.startTracking();
+        profile = Profile.getCurrentProfile();
     }
 
     @Override
@@ -130,16 +137,18 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     @Override
     public void onInt(Bundle bundle) {
         createMenu();
-        updateDrawerNavigation();
     }
 
     @Override
     public void onItemClick(int position) {
         FragmentManager mFragmentManager = getSupportFragmentManager();
-        Fragment mFragment = new FragmentBuilder().newFragment(this, mHelpLiveo.get(position).getName(), position);
+        Fragment mFragment = FragmentBuilder.newFragment(this, mHelpLiveo.get(position).getName(), position);
 
         if (mFragment != null){
-            mFragmentManager.beginTransaction().replace(R.id.container, mFragment).commit();
+            mFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, mFragment)
+                    .commit();
         }
     }
 
@@ -167,46 +176,50 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     private void createMenu() {
         // Creating items navigation
         mHelpLiveo = new HelpLiveo();
-        mHelpLiveo.add(getString(R.string.home_item));
+        mHelpLiveo.add(getString(R.string.home_item), R.drawable.ic_home_black_24dp);
         //mHelpLiveo.addSubHeader(getString(R.string.categories)); //Item subHeader
-        mHelpLiveo.add(getString(R.string.news_item));
-        mHelpLiveo.add(getString(R.string.agenda_item));
-        mHelpLiveo.add(getString(R.string.gallery_item));
-        mHelpLiveo.addSeparator(); // Item separator
+        mHelpLiveo.add(getString(R.string.agenda_item), R.drawable.ic_schedule_black_24dp);
+        mHelpLiveo.add(getString(R.string.gallery_item), R.drawable.ic_photo_library_black_24dp);
+        mHelpLiveo.add(getString(R.string.location_item), R.drawable.ic_place_black_24dp);
+//        mHelpLiveo.addSeparator(); // Item separator
+        mHelpLiveo.addSubHeader(getString(R.string.info_sub_item));
+        mHelpLiveo.add(getString(R.string.app_item), R.drawable.ic_perm_device_information_black_24dp);
+        mHelpLiveo.add(getString(R.string.developer_item), R.drawable.ic_developer_mode_black_24dp);
 
         with(this).startingPosition(0) //Starting position in the list
                 .addAllHelpItem(mHelpLiveo.getHelp())
                 .setOnClickUser(onClickPhoto)
                 .setOnPrepareOptionsMenu(onPrepare)
-                .footerItem(R.string.login, R.drawable.fbicon)
                 .setOnClickFooter(onClickFooter)
                 .build();
+        if (accessToken != null) {
+            updateLogin();
+        } else {
+            updateLogout();
+        }
+
+    }
+
+    public void updateLogin() {
+        this.userName.setText(profile.getFirstName());
+        Bitmap bitmapFromArchive = BitmapFactory.decodeFile(getApplicationContext().getFilesDir() + "/" + sourcePhoto);
+        if (bitmapFromArchive == null) {
+            new ProfilePhoto(this).execute();
+        } else {
+            this.userPhoto.setImageBitmap(bitmapFromArchive);
+        }
+        this.footerItem("Logout", R.drawable.fbicon);
+    }
+
+    public void updateLogout() {
+        this.userName.setText("MACS - Museu de Arte Contemporânea de Sorocaba");
+        this.userPhoto.setImageResource(R.drawable.userphoto);
+        this.footerItem("Login", R.drawable.fbicon);
     }
 
     public void updateDrawerNavigation() {
-        boolean value;
-        if (accessToken == null) {
-            this.userName.setText("User");
-            this.userPhoto.setImageResource(R.drawable.noprofilephoto);
-            this.footerItem(R.string.login, R.drawable.fbicon);
-            value = false;
-        } else {
             this.userName.setText(profile.getFirstName());
-            Bitmap bitmapFromArchive = BitmapFactory.decodeFile(getApplicationContext().getFilesDir() + "/" + sourcePhoto);
-            if (bitmapFromArchive == null) {
-                new ProfilePhoto(this).execute();
-            } else {
-                this.userPhoto.setImageBitmap(bitmapFromArchive);
-            }
-            this.footerItem(R.string.logout, R.drawable.fbicon);
-            value = true;
-        }
-        this.setVisibleItemNavigation(1, value);
-        this.setVisibleItemNavigation(2, value);
-        this.setVisibleItemNavigation(3, value);
-        if (this.getCurrentPosition() != 0) {
-            this.onItemClick(0);
-        }
+
 
     }
 
@@ -220,5 +233,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     public ImageLoader getImageLoader() {
         return imageLoader;
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(Fragment currentFragment) {
+        this.currentFragment = currentFragment;
     }
 }
