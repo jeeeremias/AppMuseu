@@ -5,18 +5,16 @@ package app.museu.macs.model;
  */
 public class GalleryPhoto {
     private String id;
-    private String uri;
+    private String uriPicture;
+    private String uriSource;
     private String description;
 
-    public GalleryPhoto(String id, String uri, String description) {
+    public GalleryPhoto(String id, String description, String uriPicture, String uriSource) {
         this.id = id;
         this.description = description;
-        this.uri = uri;
+        this.uriPicture = uriPicture;
+        this.uriSource = uriSource;
     }
-
-    public GalleryPhoto() {
-        
-    };
 
     public String getId() {
         return id;
@@ -26,12 +24,20 @@ public class GalleryPhoto {
         this.id = id;
     }
 
-    public String getUri() {
-        return uri;
+    public String getUriPicture() {
+        return uriPicture;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUriPicture(String uriPicture) {
+        this.uriPicture = uriPicture;
+    }
+
+    public String getUriSource() {
+        return uriSource;
+    }
+
+    public void setUriSource(String uriSource) {
+        this.uriSource = uriSource;
     }
 
     public String getDescription() {

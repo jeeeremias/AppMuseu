@@ -1,95 +1,81 @@
 package app.museu.macs.fragments;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import java.util.List;
 
 import app.museu.macs.R;
 import app.museu.macs.activities.HomeActivity;
-import app.museu.macs.adapters.GalleryAdapter;
-import app.museu.macs.async.GalleryPhotos;
 import app.museu.macs.model.GalleryPhoto;
-import app.museu.macs.util.MyApplication;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GalleryFragment.OnFragmentInteractionListener} interface
+ * {@link ImageDisplayFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link GalleryFragment#newInstance} factory method to
+ * Use the {@link ImageDisplayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment {
+public class ImageDisplayFragment extends Fragment {
 
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private GridView gridViewGallery;
-    private List<GalleryPhoto> galleryPhotos;
     private OnFragmentInteractionListener mListener;
     private HomeActivity homeActivity;
+    private List<GalleryPhoto> galleryPhotos;
+    private int position;
+    private ImageView imageView;
+    private ImageLoader imageLoader;
+    private GalleryPhoto galleryPhoto;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param titlle Parameter 1.
-     * @return A new instance of fragment GalleryFragment.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment ImageDisplayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(HomeActivity homeActivity, String title) {
-        GalleryFragment fragment = new GalleryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, title);
-        fragment.setArguments(args);
+    public static ImageDisplayFragment newInstance(HomeActivity homeActivity, List<GalleryPhoto> galleryPhotos, int position) {
+        ImageDisplayFragment fragment = new ImageDisplayFragment();
+        fragment.setGalleryPhotos(galleryPhotos);
         fragment.setHomeActivity(homeActivity);
+        fragment.setPosition(position);
         return fragment;
     }
 
-    public GalleryFragment() {
+    public ImageDisplayFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageLoader = getHomeActivity().getImageLoader();
+        galleryPhoto = galleryPhotos.get(position);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_gallery, container, false);
-        gridViewGallery = (GridView) view.findViewById(R.id.gridViewGalery);
-        gridViewGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager mFragmentManager = getHomeActivity().getSupportFragmentManager();
-                Fragment mFragment = ImageDisplayFragment.newInstance(getHomeActivity(), galleryPhotos, position);
-
-                if (mFragment != null){
-                    mFragmentManager.beginTransaction()
-                            .remove(homeActivity.getCurrentFragment())
-                            .add(R.id.container, mFragment)
-                            .addToBackStack(null)
-                            .commit();
-                    homeActivity.setCurrentFragment(mFragment);
-                }
-            }
-        });
-        new GalleryPhotos(this).execute();
+        View view = inflater.inflate(R.layout.fragment_image_display, container, false);
+        imageView = (ImageView) view.findViewById(R.id.galleryImageViewFull);
+        showImage();
         return view;
     }
 
@@ -116,7 +102,7 @@ public class GalleryFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
@@ -142,8 +128,49 @@ public class GalleryFragment extends Fragment {
         this.galleryPhotos = galleryPhotos;
     }
 
-    public void setAdapterGrid() {
-        gridViewGallery.setAdapter(new GalleryAdapter(MyApplication.getAppContext(), galleryPhotos, getHomeActivity().getImageLoader()));
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public ImageLoader getImageLoader() {
+        return imageLoader;
+    }
+
+    public void setImageLoader(ImageLoader imageLoader) {
+        this.imageLoader = imageLoader;
+    }
+
+    public void showImage() {
+        imageLoader.displayImage(galleryPhoto.getUriSource(), imageView, null, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
+            }
+        }, new ImageLoadingProgressListener() {
+            @Override
+            public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+            }
+        });
     }
 
 }

@@ -98,24 +98,6 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
 
-        Log.d("Agenda", "Vai criar essa fita");
-
-//        WeekView.MonthChangeListener monthChangeListener = new WeekView.MonthChangeListener() {
-//            @Override
-//            public List<WeekViewEvent> onMonthChange(int i, int i1) {
-//                List<WeekViewEvent> weekViewEventList = null;
-//                try {
-//                    weekViewEventList = new CalendarMacs(fragment).execute().get();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//                return weekViewEventList;
-//            }
-//        };
-
-
         // The week view has infinite scrolling horizontally. We have to provide the events of a
         // month every time the month changes on the week view.
         mWeekView.setMonthChangeListener(this);
@@ -177,105 +159,6 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
-        // Populate the week view with some events.
-//        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-//
-//        java.util.Calendar startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 3);
-//        startTime.set(java.util.Calendar.MINUTE, 0);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        java.util.Calendar endTime = (java.util.Calendar) startTime.clone();
-//        endTime.add(java.util.Calendar.HOUR, 1);
-//        endTime.set(Calendar.DAY_OF_MONTH, 20);
-//        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 3);
-//        startTime.set(java.util.Calendar.MINUTE, 30);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.set(java.util.Calendar.HOUR_OF_DAY, 4);
-//        endTime.set(java.util.Calendar.MINUTE, 30);
-//        endTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 4);
-//        startTime.set(java.util.Calendar.MINUTE, 20);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.set(java.util.Calendar.HOUR_OF_DAY, 5);
-//        endTime.set(java.util.Calendar.MINUTE, 0);
-//        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 5);
-//        startTime.set(java.util.Calendar.MINUTE, 30);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.add(java.util.Calendar.HOUR_OF_DAY, 2);
-//        endTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 5);
-//        startTime.set(java.util.Calendar.MINUTE, 0);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        startTime.add(java.util.Calendar.DATE, 1);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.add(java.util.Calendar.HOUR_OF_DAY, 3);
-//        endTime.set(java.util.Calendar.MONTH, newMonth - 1);
-//        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.DAY_OF_MONTH, 15);
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 3);
-//        startTime.set(java.util.Calendar.MINUTE, 0);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.add(java.util.Calendar.HOUR_OF_DAY, 3);
-//        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.DAY_OF_MONTH, 1);
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 3);
-//        startTime.set(java.util.Calendar.MINUTE, 0);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.add(java.util.Calendar.HOUR_OF_DAY, 3);
-//        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
-//
-//        startTime = java.util.Calendar.getInstance();
-//        startTime.set(java.util.Calendar.DAY_OF_MONTH, startTime.getActualMaximum(java.util.Calendar.DAY_OF_MONTH));
-//        startTime.set(java.util.Calendar.HOUR_OF_DAY, 15);
-//        startTime.set(java.util.Calendar.MINUTE, 0);
-//        startTime.set(java.util.Calendar.MONTH, newMonth-1);
-//        startTime.set(java.util.Calendar.YEAR, newYear);
-//        endTime = (java.util.Calendar) startTime.clone();
-//        endTime.add(java.util.Calendar.HOUR_OF_DAY, 3);
-//        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.nliveo_red_colorPrimary));
-//        events.add(event);
         if(populated == false) {
             populated = true;
             return events;

@@ -9,9 +9,13 @@
     <string name="home_item">Início</string>
     <string name="agenda_item">Agenda</string>
     <string name="gallery_item">Galeria</string>
-    <string name="news_item">Notícias</string>
+    <string name="location_item">Localização</string>
+    <string name="developer_item">Desenvolvedor</string>
+    <string name="app_item">Aplicativo</string>
+    <string name="info_sub_item">Informações</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="address">Av. Dr. Afonso Vergueiro, 288, Centro\nCEP 18035-370  - Sorocaba-SP\nTel.: +55 (15) 3233-1692\nEmail: macs@macs.org.br</string>
     <string name="whatisMACS"><h1><strong>O MACS</strong></h1><br/>Museu de Arte Contemporânea de Sorocaba, é uma instituição cultural eminentemente artística e educativa, espaço dinâmico e plural que prioriza a difusão das artes visuais. É uma instituição aberta e acessível a todas as camadas da população e seu acervo terá foco na arte contemporânea brasileira.</string>
     <string name="profilePicture">profilePic</string>
 
@@ -29,4 +33,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_image_display">ImageDisplayActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
