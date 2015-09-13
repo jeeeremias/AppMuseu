@@ -1,5 +1,6 @@
 package app.museu.macs.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -26,8 +28,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.Arrays;
+import java.util.List;
+
 import app.museu.macs.R;
+import app.museu.macs.async.PostYourPhoto;
 import app.museu.macs.async.ProfilePhoto;
+import app.museu.macs.model.GalleryPhoto;
+import app.museu.macs.model.PostFacebook;
 import app.museu.macs.util.FragmentBuilder;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
@@ -40,6 +47,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     final private String sourcePhoto = "userPhoto";
     private ImageLoader imageLoader;
     private Fragment currentFragment;
+    private PostFacebook postFacebook = null;
+    private ProgressDialog progressDialog;
+    private List<WeekViewEvent> weekViewEvents;
+    private FragmentBuilder fragmentBuilder = new FragmentBuilder(this);
+    private List<GalleryPhoto> galleryPhotos;
+
+    private int imageToDisplay;
 
     /**
      * Required variables to login Facebook
@@ -52,6 +66,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        progressDialog = new ProgressDialog(this);
 
         // Facebook implementations
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -69,21 +85,24 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        if(loginResult != null) {
-                            updateLogin();
+                        LoginManager loginManager = LoginManager.getInstance();
+                        if(loginResult.getRecentlyGrantedPermissions().contains("publish_actions")) {
+                            new PostYourPhoto(postFacebook).execute();
+                            postFacebook = null;
                         } else {
-                            updateLogout();
+                            updateLogin();
                         }
                     }
 
                     @Override
                     public void onCancel() {
-                        // App code
+                        Log.i("Login Facebook", "onCancel");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
+                        Log.i("Login Facebook", "onError");
+                        exception.printStackTrace();
                     }
                 });
 
@@ -141,15 +160,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     @Override
     public void onItemClick(int position) {
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        Fragment mFragment = FragmentBuilder.newFragment(this, mHelpLiveo.get(position).getName(), position);
-
-        if (mFragment != null){
-            mFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, mFragment)
-                    .commit();
-        }
+        fragmentBuilder.newFragment(position);
     }
 
     private OnPrepareOptionsMenuLiveo onPrepare = new OnPrepareOptionsMenuLiveo() {
@@ -181,10 +192,12 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         mHelpLiveo.add(getString(R.string.agenda_item), R.drawable.ic_schedule_black_24dp);
         mHelpLiveo.add(getString(R.string.gallery_item), R.drawable.ic_photo_library_black_24dp);
         mHelpLiveo.add(getString(R.string.location_item), R.drawable.ic_place_black_24dp);
+        mHelpLiveo.add(getString(R.string.check_in_item), R.drawable.ic_check_black_24dp);
 //        mHelpLiveo.addSeparator(); // Item separator
         mHelpLiveo.addSubHeader(getString(R.string.info_sub_item));
         mHelpLiveo.add(getString(R.string.app_item), R.drawable.ic_perm_device_information_black_24dp);
         mHelpLiveo.add(getString(R.string.developer_item), R.drawable.ic_developer_mode_black_24dp);
+
 
         with(this).startingPosition(0) //Starting position in the list
                 .addAllHelpItem(mHelpLiveo.getHelp())
@@ -225,7 +238,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     public void loginFacebook() {
         if(accessToken == null) {
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("publish_actions"));
         } else {
             LoginManager.getInstance().logOut();
         }
@@ -241,5 +254,53 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     public void setCurrentFragment(Fragment currentFragment) {
         this.currentFragment = currentFragment;
+    }
+
+    public PostFacebook getPostFacebook() {
+        return postFacebook;
+    }
+
+    public void setPostFacebook(PostFacebook postFacebook) {
+        this.postFacebook = postFacebook;
+    }
+
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
+
+    public void setProgressDialog(ProgressDialog progressDialog) {
+        this.progressDialog = progressDialog;
+    }
+
+    public List<WeekViewEvent> getWeekViewEvents() {
+        return weekViewEvents;
+    }
+
+    public void setWeekViewEvents(List<WeekViewEvent> weekViewEvents) {
+        this.weekViewEvents = weekViewEvents;
+    }
+
+    public FragmentBuilder getFragmentBuilder() {
+        return fragmentBuilder;
+    }
+
+    public void setFragmentBuilder(FragmentBuilder fragmentBuilder) {
+        this.fragmentBuilder = fragmentBuilder;
+    }
+
+    public List<GalleryPhoto> getGalleryPhotos() {
+        return galleryPhotos;
+    }
+
+    public void setGalleryPhotos(List<GalleryPhoto> galleryPhotos) {
+        this.galleryPhotos = galleryPhotos;
+    }
+
+    public int getImageToDisplay() {
+        return imageToDisplay;
+    }
+
+    public void setImageToDisplay(int imageToDisplay) {
+        this.imageToDisplay = imageToDisplay;
     }
 }

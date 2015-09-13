@@ -18,6 +18,7 @@ import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.adapters.GalleryAdapter;
 import app.museu.macs.async.GalleryPhotos;
 import app.museu.macs.model.GalleryPhoto;
+import app.museu.macs.util.EnumFragment;
 import app.museu.macs.util.MyApplication;
 
 
@@ -35,7 +36,6 @@ public class GalleryFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
     private GridView gridViewGallery;
     private List<GalleryPhoto> galleryPhotos;
     private OnFragmentInteractionListener mListener;
@@ -49,10 +49,9 @@ public class GalleryFragment extends Fragment {
      * @return A new instance of fragment GalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(HomeActivity homeActivity, String title) {
+    public static GalleryFragment newInstance(HomeActivity homeActivity) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, title);
         fragment.setArguments(args);
         fragment.setHomeActivity(homeActivity);
         return fragment;
@@ -76,20 +75,15 @@ public class GalleryFragment extends Fragment {
         gridViewGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager mFragmentManager = getHomeActivity().getSupportFragmentManager();
-                Fragment mFragment = ImageDisplayFragment.newInstance(getHomeActivity(), galleryPhotos, position);
-
-                if (mFragment != null){
-                    mFragmentManager.beginTransaction()
-                            .remove(homeActivity.getCurrentFragment())
-                            .add(R.id.container, mFragment)
-                            .addToBackStack(null)
-                            .commit();
-                    homeActivity.setCurrentFragment(mFragment);
-                }
+                homeActivity.setImageToDisplay(position);
+                homeActivity.getFragmentBuilder().newFragment(EnumFragment.DISPLAY_IMAGE_FRAGMENT);
             }
         });
-        new GalleryPhotos(this).execute();
+        homeActivity.getProgressDialog().setTitle("Aguarde");
+        homeActivity.getProgressDialog().setMessage("Carregando imagens da galeria...");
+        homeActivity.getProgressDialog().setCancelable(false);
+        homeActivity.getProgressDialog().show();
+        new GalleryPhotos(this, homeActivity).execute();
         return view;
     }
 

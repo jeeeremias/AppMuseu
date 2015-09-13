@@ -43,7 +43,7 @@ public class LocationFragment extends Fragment {
      * @return A new instance of fragment LocationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LocationFragment newInstance(String param2) {
+    public static LocationFragment newInstance() {
         LocationFragment fragment = new LocationFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
