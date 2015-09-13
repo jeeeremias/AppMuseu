@@ -28,6 +28,7 @@ import javax.net.ssl.HttpsURLConnection;
 import app.museu.macs.R;
 import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.fragments.AgendaFragment;
+import app.museu.macs.util.EnumFragment;
 import app.museu.macs.util.FragmentBuilder;
 import app.museu.macs.util.GetMetaData;
 import app.museu.macs.util.ParseWeekViewEvent;
@@ -75,7 +76,6 @@ public class CalendarEvents extends AsyncHomeActivityTasks {
                     weekViewEvents.add(weekViewEvent);
                 }
             }
-            callAgendaFragment(weekViewEvents);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -83,16 +83,13 @@ public class CalendarEvents extends AsyncHomeActivityTasks {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        callAgendaFragment(weekViewEvents);
+        getHomeActivity().getProgressDialog().cancel();
         return null;
     }
 
     public void callAgendaFragment(List<WeekViewEvent> weekViewEvents) {
-        FragmentManager mFragmentManager = getHomeActivity().getSupportFragmentManager();
-        Fragment mFragment = AgendaFragment.newInstance("Agenda", weekViewEvents);
-
-        if (mFragment != null){
-            mFragmentManager.beginTransaction().replace(R.id.container, mFragment).commit();
-        }
+        getHomeActivity().setWeekViewEvents(weekViewEvents);
+        getHomeActivity().getFragmentBuilder().newFragment(EnumFragment.AGENDA_FRAGMENT);
     }
 }

@@ -50,11 +50,9 @@ public class ImageDisplayFragment extends Fragment {
      * @return A new instance of fragment ImageDisplayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ImageDisplayFragment newInstance(HomeActivity homeActivity, List<GalleryPhoto> galleryPhotos, int position) {
+    public static ImageDisplayFragment newInstance(HomeActivity homeActivity) {
         ImageDisplayFragment fragment = new ImageDisplayFragment();
-        fragment.setGalleryPhotos(galleryPhotos);
         fragment.setHomeActivity(homeActivity);
-        fragment.setPosition(position);
         return fragment;
     }
 
@@ -65,8 +63,9 @@ public class ImageDisplayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imageLoader = getHomeActivity().getImageLoader();
-        galleryPhoto = galleryPhotos.get(position);
+        position = homeActivity.getImageToDisplay();
+        imageLoader = homeActivity.getImageLoader();
+        galleryPhoto = homeActivity.getGalleryPhotos().get(position);
     }
 
     @Override

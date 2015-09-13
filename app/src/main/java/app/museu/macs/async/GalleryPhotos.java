@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.fragments.GalleryFragment;
 import app.museu.macs.model.GalleryPhoto;
 
@@ -36,11 +37,13 @@ import app.museu.macs.model.GalleryPhoto;
  */
 public class GalleryPhotos extends AsyncTask<Void, Void, Void> {
 
-    GalleryFragment galleryFragment;
-    List<GalleryPhoto> galleryPhotos = new ArrayList<GalleryPhoto>();
+    private GalleryFragment galleryFragment;
+    private List<GalleryPhoto> galleryPhotos = new ArrayList<GalleryPhoto>();
+    private HomeActivity homeActivity;
 
-    public GalleryPhotos(GalleryFragment galleryFragment) {
+    public GalleryPhotos(GalleryFragment galleryFragment, HomeActivity homeActivity) {
         this.galleryFragment = galleryFragment;
+        this.homeActivity = homeActivity;
     }
 
     @Override
@@ -102,7 +105,8 @@ public class GalleryPhotos extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        homeActivity.setGalleryPhotos(galleryPhotos);
+        homeActivity.getProgressDialog().cancel();
         return null;
     }
 }

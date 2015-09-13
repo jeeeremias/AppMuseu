@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import app.museu.macs.R;
+import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.async.CalendarEvents;
 
 
@@ -42,19 +43,10 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
     private boolean populated = false;
-
     private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
     private List<WeekViewEvent> eventsEmpty = new ArrayList<WeekViewEvent>();
-
-
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-
     private OnFragmentInteractionListener mListener;
+    private HomeActivity homeActivity;
 
     /**
      * Use this factory method to create a new instance of
@@ -63,11 +55,10 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
      * @return A new instance of fragment AgendaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AgendaFragment newInstance(String titlle, List<WeekViewEvent> events) {
+    public static AgendaFragment newInstance(HomeActivity homeActivity) {
         AgendaFragment fragment = new AgendaFragment();
-        fragment.setEvents(events);
         Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, titlle);
+        fragment.setHomeActivity(homeActivity);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,6 +70,7 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setEvents(homeActivity.getWeekViewEvents());
     }
 
     @Override
@@ -178,6 +170,14 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
 
     public void setEvents(List<WeekViewEvent> events) {
         this.events = events;
+    }
+
+    public HomeActivity getHomeActivity() {
+        return homeActivity;
+    }
+
+    public void setHomeActivity(HomeActivity homeActivity) {
+        this.homeActivity = homeActivity;
     }
 
 }

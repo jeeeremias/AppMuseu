@@ -23,14 +23,8 @@ import app.museu.macs.async.CalendarEvents;
  */
 public class GetAgendaFragment extends Fragment {
 
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    TextView textView = null;
-
+    private HomeActivity homeActivity;
+    private TextView textView;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -42,10 +36,10 @@ public class GetAgendaFragment extends Fragment {
      * @return A new instance of fragment GetAgendaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GetAgendaFragment newInstance(String title) {
+    public static GetAgendaFragment newInstance(HomeActivity homeActivity) {
         GetAgendaFragment fragment = new GetAgendaFragment();
+        fragment.setHomeActivity(homeActivity);
         Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,6 +51,10 @@ public class GetAgendaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        homeActivity.getProgressDialog().setTitle("Aguarde");
+        homeActivity.getProgressDialog().setMessage("Carregando a agenda...");
+        homeActivity.getProgressDialog().setCancelable(false);
+        homeActivity.getProgressDialog().show();
         new CalendarEvents((HomeActivity) getActivity()).execute();
     }
 
@@ -103,6 +101,14 @@ public class GetAgendaFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public HomeActivity getHomeActivity() {
+        return this.homeActivity;
+    }
+
+    public void setHomeActivity(HomeActivity homeActivity) {
+        this.homeActivity = homeActivity;
     }
 
 }

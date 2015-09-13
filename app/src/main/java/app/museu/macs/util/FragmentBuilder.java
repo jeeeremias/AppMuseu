@@ -1,35 +1,64 @@
 package app.museu.macs.util;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
+import app.museu.macs.R;
 import app.museu.macs.activities.HomeActivity;
+import app.museu.macs.fragments.AgendaFragment;
 import app.museu.macs.fragments.GalleryFragment;
 import app.museu.macs.fragments.GetAgendaFragment;
 import app.museu.macs.fragments.HomeFragment;
+import app.museu.macs.fragments.ImageDisplayFragment;
 import app.museu.macs.fragments.LocationFragment;
-import app.museu.macs.fragments.NewsFragment;
+import app.museu.macs.fragments.PostYourPhotoFragment;
 
 /**
  * Created by jeremias on 06/06/15.
  */
 public class FragmentBuilder {
-    public static Fragment newFragment(HomeActivity homeActivity, String name, int index) {
-        Fragment mFragment = null;
+
+    public FragmentBuilder(HomeActivity homeActivity) {
+        this.homeActivity = homeActivity;
+        fragmentManager = homeActivity.getSupportFragmentManager();
+    }
+
+    private HomeActivity homeActivity;
+    private Fragment fragment = null;
+    private FragmentManager fragmentManager;
+
+    public Fragment newFragment(int index) {
         switch (index) {
-            case 0:
-                mFragment = HomeFragment.newInstance(name);
+            case EnumFragment.HOME_FRAGMENT:
+                fragment = HomeFragment.newInstance();
                 break;
-            case 1:
-                mFragment = GetAgendaFragment.newInstance(name);
+            case EnumFragment.GET_AGENDA_FRAGMENT:
+                fragment = GetAgendaFragment.newInstance(homeActivity);
                 break;
-            case 2:
-                mFragment = GalleryFragment.newInstance(homeActivity, name);
+            case EnumFragment.GALLERY_FRAGMENT:
+                fragment = GalleryFragment.newInstance(homeActivity);
                 break;
-            case 3:
-                mFragment = LocationFragment.newInstance(name);
+            case EnumFragment.LOCATION_FRAGMENT:
+                fragment = LocationFragment.newInstance();
                 break;
+            case EnumFragment.POST_YOUR_PHOTO_FRAGMENT:
+                fragment = PostYourPhotoFragment.newInstance(homeActivity);
+                break;
+            case EnumFragment.AGENDA_FRAGMENT:
+                fragment = AgendaFragment.newInstance(homeActivity);
+                break;
+            case EnumFragment.DISPLAY_IMAGE_FRAGMENT:
+                fragment = ImageDisplayFragment.newInstance(homeActivity);
         }
-        homeActivity.setCurrentFragment(mFragment);
-        return mFragment;
+
+        homeActivity.setCurrentFragment(fragment);
+
+        if (fragment != null){
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
+        return fragment;
     }
 }
