@@ -3,15 +3,19 @@ package app.museu.macs.util;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import java.util.Stack;
+
 import app.museu.macs.R;
 import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.fragments.AgendaFragment;
+import app.museu.macs.fragments.DevInformationFragment;
 import app.museu.macs.fragments.GalleryFragment;
 import app.museu.macs.fragments.GetAgendaFragment;
 import app.museu.macs.fragments.HomeFragment;
 import app.museu.macs.fragments.ImageDisplayFragment;
 import app.museu.macs.fragments.LocationFragment;
 import app.museu.macs.fragments.PostYourPhotoFragment;
+import app.museu.macs.fragments.ProjectInformationFragment;
 
 /**
  * Created by jeremias on 06/06/15.
@@ -26,19 +30,35 @@ public class FragmentBuilder {
     private HomeActivity homeActivity;
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
+    private Stack<Integer> fragmentStack = new Stack<Integer>();
 
-    public Fragment newFragment(int index) {
+    public boolean doBack() {
+        if(fragmentStack.size() > 1) {
+            fragmentStack.pop();
+            newFragment(fragmentStack.pop());
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void  newFragment(int index) {
         switch (index) {
             case EnumFragment.HOME_FRAGMENT:
+                fragmentStack.push(index);
                 fragment = HomeFragment.newInstance();
                 break;
             case EnumFragment.GET_AGENDA_FRAGMENT:
+                fragmentStack.push(index);
                 fragment = GetAgendaFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.GALLERY_FRAGMENT:
+                fragmentStack.push(index);
                 fragment = GalleryFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.LOCATION_FRAGMENT:
+                fragmentStack.push(index);
                 fragment = LocationFragment.newInstance();
                 break;
             case EnumFragment.POST_YOUR_PHOTO_FRAGMENT:
@@ -48,7 +68,17 @@ public class FragmentBuilder {
                 fragment = AgendaFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.DISPLAY_IMAGE_FRAGMENT:
+                fragmentStack.push(index);
                 fragment = ImageDisplayFragment.newInstance(homeActivity);
+                break;
+            case EnumFragment.INFO_APP_FRAGMENT:
+                fragmentStack.push(index);
+                fragment = DevInformationFragment.newInstance(homeActivity);
+                break;
+            case EnumFragment.INFO_PROJECT_FRAGMENT:
+                fragmentStack.push(index);
+                fragment = ProjectInformationFragment.newInstance(homeActivity);
+                break;
         }
 
         homeActivity.setCurrentFragment(fragment);
@@ -59,6 +89,5 @@ public class FragmentBuilder {
                     .replace(R.id.container, fragment)
                     .commit();
         }
-        return fragment;
     }
 }
