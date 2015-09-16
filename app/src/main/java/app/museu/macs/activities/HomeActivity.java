@@ -7,11 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.facebook.AccessToken;
@@ -29,13 +29,12 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 import app.museu.macs.R;
-import app.museu.macs.async.PostYourPhoto;
 import app.museu.macs.async.ProfilePhoto;
 import app.museu.macs.model.GalleryPhoto;
 import app.museu.macs.model.PostFacebook;
+import app.museu.macs.util.EnumFragment;
 import app.museu.macs.util.FragmentBuilder;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
@@ -47,13 +46,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     private HelpLiveo mHelpLiveo;
     final private String sourcePhoto = "userPhoto";
     private ImageLoader imageLoader;
-    private Fragment currentFragment;
     private PostFacebook postFacebook = null;
     private ProgressDialog progressDialog;
     private List<WeekViewEvent> weekViewEvents;
     private FragmentBuilder fragmentBuilder = new FragmentBuilder(this);
     private List<GalleryPhoto> galleryPhotos;
     private int imageToDisplay;
+    private Toast toast;
 
     /**
      * Required variables to login Facebook
@@ -68,7 +67,6 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         super.onCreate(savedInstanceState);
 
         progressDialog = new ProgressDialog(this);
-
         // Facebook implementations
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -85,11 +83,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        if(loginResult.getRecentlyGrantedPermissions().contains("publish_actions")) {
-                            new PostYourPhoto(postFacebook).execute();
-                            postFacebook = null;
-                        } else {
-                            updateLogin();
+                        if(loginResult.getRecentlyGrantedPermissions().contains("public_profile")) {
+                            fragmentBuilder.newFragment(EnumFragment.GALLERY_FRAGMENT);
                         }
                     }
 
@@ -102,6 +97,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                     public void onError(FacebookException exception) {
                         Log.i("Login Facebook", "onError");
                         exception.printStackTrace();
+                        toast.setText("Erro ao fazer o login com o Facebook");
+                        toast.show();
                     }
                 });
 
@@ -115,9 +112,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 .build();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(displayImageOptions)
-                .writeDebugLogs()
                 .memoryCacheSize(2 * 1024 * 1024)
-                .diskCacheSize(10 * 1024 * 1024)
+                .diskCacheSize(15 * 1024 * 1024)
                 .build();
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(imageLoaderConfiguration);
@@ -240,23 +236,11 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     }
 
     public void loginFacebook() {
-        if(accessToken == null) {
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("publish_actions"));
-        } else {
-            LoginManager.getInstance().logOut();
-        }
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
 
     public ImageLoader getImageLoader() {
         return imageLoader;
-    }
-
-    public Fragment getCurrentFragment() {
-        return currentFragment;
-    }
-
-    public void setCurrentFragment(Fragment currentFragment) {
-        this.currentFragment = currentFragment;
     }
 
     public PostFacebook getPostFacebook() {
@@ -305,5 +289,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     public void setImageToDisplay(int imageToDisplay) {
         this.imageToDisplay = imageToDisplay;
+    }
+
+    public Toast getToast() {
+        return toast;
+    }
+
+    public void setToast(Toast toast) {
+        this.toast = toast;
     }
 }

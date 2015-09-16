@@ -1,5 +1,8 @@
 package app.museu.macs.util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -79,9 +82,10 @@ public class FragmentBuilder {
                 fragmentStack.push(index);
                 fragment = ProjectInformationFragment.newInstance(homeActivity);
                 break;
+            case EnumFragment.LOGIN_FACEBOOK:
+                homeActivity.loginFacebook();
+                break;
         }
-
-        homeActivity.setCurrentFragment(fragment);
 
         if (fragment != null){
             fragmentManager
@@ -89,5 +93,12 @@ public class FragmentBuilder {
                     .replace(R.id.container, fragment)
                     .commit();
         }
+    }
+
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) homeActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }
