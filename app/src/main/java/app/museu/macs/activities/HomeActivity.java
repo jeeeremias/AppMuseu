@@ -7,11 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.facebook.AccessToken;
@@ -31,10 +31,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import app.museu.macs.R;
-import app.museu.macs.async.PostYourPhoto;
 import app.museu.macs.async.ProfilePhoto;
 import app.museu.macs.model.GalleryPhoto;
 import app.museu.macs.model.PostFacebook;
+import app.museu.macs.util.EnumFragment;
 import app.museu.macs.util.FragmentBuilder;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
@@ -46,14 +46,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     private HelpLiveo mHelpLiveo;
     final private String sourcePhoto = "userPhoto";
     private ImageLoader imageLoader;
-    private Fragment currentFragment;
     private PostFacebook postFacebook = null;
     private ProgressDialog progressDialog;
     private List<WeekViewEvent> weekViewEvents;
     private FragmentBuilder fragmentBuilder = new FragmentBuilder(this);
     private List<GalleryPhoto> galleryPhotos;
-
     private int imageToDisplay;
+    private Toast toast;
 
     /**
      * Required variables to login Facebook
@@ -68,7 +67,6 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         super.onCreate(savedInstanceState);
 
         progressDialog = new ProgressDialog(this);
-
         // Facebook implementations
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -85,12 +83,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        LoginManager loginManager = LoginManager.getInstance();
-                        if(loginResult.getRecentlyGrantedPermissions().contains("publish_actions")) {
-                            new PostYourPhoto(postFacebook).execute();
-                            postFacebook = null;
-                        } else {
-                            updateLogin();
+                        if(loginResult.getRecentlyGrantedPermissions().contains("public_profile")) {
+                            fragmentBuilder.newFragment(EnumFragment.GALLERY_FRAGMENT);
                         }
                     }
 
@@ -103,6 +97,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                     public void onError(FacebookException exception) {
                         Log.i("Login Facebook", "onError");
                         exception.printStackTrace();
+                        toast.setText("Erro ao fazer o login com o Facebook");
+                        toast.show();
                     }
                 });
 
@@ -116,9 +112,8 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 .build();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(displayImageOptions)
-                .writeDebugLogs()
                 .memoryCacheSize(2 * 1024 * 1024)
-                .diskCacheSize(10 * 1024 * 1024)
+                .diskCacheSize(15 * 1024 * 1024)
                 .build();
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(imageLoaderConfiguration);
@@ -169,6 +164,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        if (!fragmentBuilder.doBack()) {
+            super.onBackPressed();
+        }
+    }
+
     private View.OnClickListener onClickPhoto = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -179,7 +181,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     private View.OnClickListener onClickFooter = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            loginFacebook();
+            share();
             closeDrawer();
         }
     };
@@ -192,11 +194,11 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         mHelpLiveo.add(getString(R.string.agenda_item), R.drawable.ic_schedule_black_24dp);
         mHelpLiveo.add(getString(R.string.gallery_item), R.drawable.ic_photo_library_black_24dp);
         mHelpLiveo.add(getString(R.string.location_item), R.drawable.ic_place_black_24dp);
-        mHelpLiveo.add(getString(R.string.check_in_item), R.drawable.ic_check_black_24dp);
+//        mHelpLiveo.add(getString(R.string.check_in_item), R.drawable.ic_check_black_24dp);
 //        mHelpLiveo.addSeparator(); // Item separator
         mHelpLiveo.addSubHeader(getString(R.string.info_sub_item));
         mHelpLiveo.add(getString(R.string.app_item), R.drawable.ic_perm_device_information_black_24dp);
-        mHelpLiveo.add(getString(R.string.developer_item), R.drawable.ic_developer_mode_black_24dp);
+        mHelpLiveo.add(getString(R.string.project_item), R.drawable.ic_assignment_black_24dp);
 
 
         with(this).startingPosition(0) //Starting position in the list
@@ -205,12 +207,17 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 .setOnPrepareOptionsMenu(onPrepare)
                 .setOnClickFooter(onClickFooter)
                 .build();
-        if (accessToken != null) {
-            updateLogin();
-        } else {
-            updateLogout();
-        }
+        this.footerItem(getString(R.string.share_title), R.drawable.ic_people_black_24dp);
+        this.userName.setText("MACS - Museu de Arte Contemporânea de Sorocaba");
+        this.userPhoto.setImageResource(R.drawable.userphoto);
+    }
 
+    public void share() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_footer));
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     public void updateLogin() {
@@ -225,35 +232,15 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     }
 
     public void updateLogout() {
-        this.userName.setText("MACS - Museu de Arte Contemporânea de Sorocaba");
-        this.userPhoto.setImageResource(R.drawable.userphoto);
         this.footerItem("Login", R.drawable.fbicon);
     }
 
-    public void updateDrawerNavigation() {
-            this.userName.setText(profile.getFirstName());
-
-
-    }
-
     public void loginFacebook() {
-        if(accessToken == null) {
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("publish_actions"));
-        } else {
-            LoginManager.getInstance().logOut();
-        }
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
 
     public ImageLoader getImageLoader() {
         return imageLoader;
-    }
-
-    public Fragment getCurrentFragment() {
-        return currentFragment;
-    }
-
-    public void setCurrentFragment(Fragment currentFragment) {
-        this.currentFragment = currentFragment;
     }
 
     public PostFacebook getPostFacebook() {
@@ -302,5 +289,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     public void setImageToDisplay(int imageToDisplay) {
         this.imageToDisplay = imageToDisplay;
+    }
+
+    public Toast getToast() {
+        return toast;
+    }
+
+    public void setToast(Toast toast) {
+        this.toast = toast;
     }
 }

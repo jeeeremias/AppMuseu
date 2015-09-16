@@ -1,51 +1,45 @@
 package app.museu.macs.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.beardedhen.androidbootstrap.BootstrapButton;
-
-import java.util.Locale;
 
 import app.museu.macs.R;
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
+import app.museu.macs.activities.HomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LocationFragment.OnFragmentInteractionListener} interface
+ * {@link ProjectInformationFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LocationFragment#newInstance} factory method to
+ * Use the {@link ProjectInformationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LocationFragment extends Fragment {
+public class ProjectInformationFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    BootstrapButton bootstrapButton;
+    HomeActivity homeActivity;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LocationFragment.
+     * @return A new instance of fragment ProjectInformationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LocationFragment newInstance() {
-        LocationFragment fragment = new LocationFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+    public static ProjectInformationFragment newInstance(HomeActivity homeActivity) {
+        ProjectInformationFragment fragment = new ProjectInformationFragment();
+        fragment.setHomeActivity(homeActivity);
         return fragment;
     }
 
-    public LocationFragment() {
+    public ProjectInformationFragment() {
         // Required empty public constructor
     }
 
@@ -58,19 +52,7 @@ public class LocationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_location, container, false);
-        bootstrapButton = (BootstrapButton) view.findViewById(R.id.buttonHowToGet);
-        bootstrapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                double latitude = -23.4964309;
-                double longitude = -47.453988;
-                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                getActivity().startActivity(intent);
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_project_information, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,6 +86,14 @@ public class LocationFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public HomeActivity getHomeActivity() {
+        return homeActivity;
+    }
+
+    public void setHomeActivity(HomeActivity homeActivity) {
+        this.homeActivity = homeActivity;
     }
 
 }

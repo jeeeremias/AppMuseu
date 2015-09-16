@@ -42,6 +42,7 @@ public class PostYourPhotoFragment extends Fragment {
     private HomeActivity homeActivity;
     private BootstrapEditText bootstrapEditText;
     private ImageView imageView;
+    BootstrapButton bootstrapButton;
 
 
     /**
@@ -75,7 +76,7 @@ public class PostYourPhotoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_you_photo, container, false);
-        BootstrapButton bootstrapButton = (BootstrapButton) view.findViewById(R.id.buttonPublish);
+        bootstrapButton = (BootstrapButton) view.findViewById(R.id.buttonPublish);
         bootstrapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

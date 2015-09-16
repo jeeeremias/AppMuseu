@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.museu.macs.fragments.ProjectInformationFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/infoProjectTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/black"
+            android:text="@string/info_project_title"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:id="@+id/imageHackLab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/hacklab_sor"
+            android:layout_below="@id/infoProjectTitle"/>
+
+        <TextView
+            android:id="@+id/infoProjectText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/imageHackLab"
+            android:textColor="@color/black"
+            android:text="@string/info_project_text"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/infoProjectTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/black"
+            android:text="@string/info_project_title2"
+            android:layout_below="@id/infoProjectText"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayoutInfo"
+            android:layout_below="@id/infoProjectTitle2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:layout_weight="1"
+                android:src="@drawable/project_macs1"
+                android:adjustViewBounds="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:layout_weight="1"
+                android:src="@drawable/project_macs2"
+                android:adjustViewBounds="true"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/infoProjectText2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/linearLayoutInfo"
+            android:textColor="@color/black"
+            android:text="@string/info_project_text2"
+            android:layout_margin="5dp"/>
+
+    </RelativeLayout>
+
+
+
+</ScrollView>

@@ -1,6 +1,9 @@
 package app.museu.macs.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -84,6 +87,7 @@ public class GalleryFragment extends Fragment {
         homeActivity.getProgressDialog().setCancelable(false);
         homeActivity.getProgressDialog().show();
         new GalleryPhotos(this, homeActivity).execute();
+
         return view;
     }
 

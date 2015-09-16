@@ -10,17 +10,54 @@
     <string name="agenda_item">Agenda</string>
     <string name="gallery_item">Galeria</string>
     <string name="location_item">Localização</string>
-    <string name="developer_item">Desenvolvedor</string>
+    <string name="project_item">Projeto</string>
     <string name="app_item">Aplicativo</string>
     <string name="info_sub_item">Informações</string>
     <string name="check_in_item">Check-in</string>
     <string name="share_title">Compartilhe!</string>
-    <string name="share_text">Mostre para seus amigos, o que está acontecendo no museu.\nPoste o sua foto.\nCompartilhe suas experiências.\nComece digitando uma mensagem bem contagiante para fazer inveja aos seus amigos:</string>
+    <string name="share_text">Mostre para seus amigos,
+        o que está acontecendo no museu.\n
+        Poste o sua foto.\nCompartilhe suas experiências.\n
+        Comece digitando uma mensagem bem contagiante para
+        fazer inveja aos seus amigos:</string>
+    <string name="share_footer">Olá, o MACS - Museu de Arte Contemporânea de Sorocaba,
+        agora possui um aplicativo, onde você pode ficar por dentro das principais novidades e atividades do museu.
+    Se você possui um celular com Android, baixe agora mesmo! Está disponível na Google Play ;)</string>
     <string name="login">Login com Facebook</string>
     <string name="logout">Logout</string>
-    <string name="address">Av. Dr. Afonso Vergueiro, 288, Centro\nCEP 18035-370  - Sorocaba-SP\nTel.: +55 (15) 3233-1692\nEmail: macs@macs.org.br</string>
-    <string name="whatisMACS"><h1><strong>O MACS</strong></h1><br/>Museu de Arte Contemporânea de Sorocaba, é uma instituição cultural eminentemente artística e educativa, espaço dinâmico e plural que prioriza a difusão das artes visuais. É uma instituição aberta e acessível a todas as camadas da população e seu acervo terá foco na arte contemporânea brasileira.</string>
+    <string name="address">Av. Dr. Afonso Vergueiro, 288, Centro\n
+        CEP 18035-370  - Sorocaba-SP\n
+        Tel.: +55 (15) 3233-1692\n
+        Email: macs@macs.org.br</string>
+    <string name="whatisMACS"><h1><strong>O MACS</strong></h1><br/>Museu de Arte Contemporânea de Sorocaba,
+        é uma instituição cultural eminentemente artística e educativa, espaço dinâmico e plural que prioriza a
+        difusão das artes visuais. É uma instituição aberta e acessível a todas as camadas da população e seu
+        acervo terá foco na arte contemporânea brasileira.</string>
     <string name="labelTextPicture">Clique na imagem para inserir/remover</string>
+    <string name="text_how_to_get">Como chegar</string>
+    <string name="info_project_title">Projeto: Desafio Arte + Tecnologia = Inovação</string>
+    <string name="info_project_text">Este Desafio é um projeto do MACS realizado em parceria
+        com o Hacklab Sorocaba e GDG Sorocaba, que consiste na proposição e execução de ações,
+        atividades e projetos que integrem as demandas específicas do museu, com soluções
+        tecnológicas inovadoras. A partir das necessidades do museu, a comunidade propõe projetos
+        criativos e inovadores que podem agregar em seu conhecimento. Partindo da proposição feita
+        o museu seleciona e viabiliza os projetos dispondo os recursos necessários para a sua execução.
+        O conhecimento continua dentro da comunidade, que se empenha na solução da demanda e com isso
+        agrega valor, tendo o espaço do museu enquanto laboratório criativo.</string>
+    <string name="info_project_title2">Quem pode participar dessa iniciativa?</string>
+    <string name="info_project_text2">Qualquer pessoa que se interesse pode participar da
+        execução do projeto, e durante a execução os participantes contam com todo o
+        apoio, infraestrutura e monitoramento do museu.
+        Basta vir, conhecer e sentar para participar com a gente.</string>
+    <string name="info_dev_title">O Aplicativo</string>
+    <string name="info_dev_text">Este aplicativo foi desenvolvido por Jeremias Pereira e
+        é fruto do projeto Desafio Arte + Tecnologia = Inovação. Com o objetivo de
+        fortalecer e manter a relação e interação do museu com seu público,
+        o aplicativo permite que o usurário fique por dentro da agenda mensal
+        de atividades do museu, além de acessar a galeria de fotos
+        conhecendo as principais atividades e ainda se localizar para
+        saber como chegar a unidade.</string>
+    <string name="dev_email">jeremias.pereiraa@gmail.com</string>
     <string name="profilePicture">profilePic</string>
     <string name="text_button_chose_picture">Publicar</string>
 

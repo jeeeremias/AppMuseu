@@ -1,0 +1,42 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    tools:context="app.museu.macs.fragments.DevInformationFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/infoDevTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/black"
+            android:text="@string/info_dev_title"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:id="@+id/infoProjectText3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/infoDevTitle"
+            android:textColor="@color/black"
+            android:text="@string/info_dev_text"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/emailDev"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/infoProjectText3"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:text="@string/dev_email"
+            android:layout_margin="5dp"/>
+
+    </RelativeLayout>
+</ScrollView>
