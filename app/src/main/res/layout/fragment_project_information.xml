@@ -1,22 +1,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.museu.macs.fragments.ProjectInformationFragment">
+    tools:context="app.museu.macs.fragments.ProjectInformationFragment"
+    xmlns:ext="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/infoProjectTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/black"
-            android:text="@string/info_project_title"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp" />
+            ext:documentView_text="@string/info_project_title"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textStyle="bold"
+            ext:documentView_textSize="24sp"
+            ext:documentView_textFormat="plain"/>
 
         <ImageView
             android:id="@+id/imageHackLab"
@@ -24,27 +26,30 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:src="@drawable/hacklab_sor"
+            android:layout_margin="20dp"
             android:layout_below="@id/infoProjectTitle"/>
 
-        <TextView
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/infoProjectText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_below="@id/imageHackLab"
-            android:textColor="@color/black"
-            android:text="@string/info_project_text"
-            android:layout_margin="5dp"/>
+            ext:documentView_text="@string/info_project_text"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textSize="18sp"
+            ext:documentView_textFormat="plain"/>
 
-        <TextView
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/infoProjectTitle2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/black"
-            android:text="@string/info_project_title2"
             android:layout_below="@id/infoProjectText"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp" />
+            android:layout_margin="20dp"
+            ext:documentView_text="@string/info_project_title2"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textStyle="bold"
+            ext:documentView_textSize="24sp"
+            ext:documentView_textFormat="plain"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,14 +75,16 @@
                 android:adjustViewBounds="true"/>
         </LinearLayout>
 
-        <TextView
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/infoProjectText2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_below="@id/linearLayoutInfo"
-            android:textColor="@color/black"
-            android:text="@string/info_project_text2"
-            android:layout_margin="5dp"/>
+            android:layout_marginTop="20dp"
+            ext:documentView_text="@string/info_project_text2"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textSize="18sp"
+            ext:documentView_textFormat="plain"/>
 
     </RelativeLayout>
 

@@ -9,12 +9,15 @@
     <string name="home_item">Início</string>
     <string name="agenda_item">Agenda</string>
     <string name="gallery_item">Galeria</string>
-    <string name="location_item">Localização</string>
+    <string name="location_item">Localização e Contato</string>
     <string name="project_item">Projeto</string>
     <string name="app_item">Aplicativo</string>
     <string name="info_sub_item">Informações</string>
     <string name="check_in_item">Check-in</string>
-    <string name="share_title">Compartilhe!</string>
+    <string name="share_title">Recomende!</string>
+    <string name="share_title2">Divulgue!</string>
+    <string name="commend_text">Espalhe para todos os seus contados e grupos do WhatsApp que você está utilizando o aplicativo do MACS.
+    Assim como você, eles também podem ficar informados sobre todas as atividades do museu, basta clicar no item "Recomende!" do menu e escolher para quem deseja enviar!</string>
     <string name="share_text">Mostre para seus amigos,
         o que está acontecendo no museu.\n
         Poste o sua foto.\nCompartilhe suas experiências.\n
@@ -25,11 +28,13 @@
     Se você possui um celular com Android, baixe agora mesmo! Está disponível na Google Play ;)</string>
     <string name="login">Login com Facebook</string>
     <string name="logout">Logout</string>
-    <string name="address">Av. Dr. Afonso Vergueiro, 288, Centro\n
-        CEP 18035-370  - Sorocaba-SP\n
-        Tel.: +55 (15) 3233-1692\n
-        Email: macs@macs.org.br</string>
-    <string name="whatisMACS"><h1><strong>O MACS</strong></h1><br/>Museu de Arte Contemporânea de Sorocaba,
+    <string name="address_line1">Av. Dr. Afonso Vergueiro, 288\n
+        CEP 18035-370, Centro - Sorocaba-SP</string>
+    <string name="contact_line1">Mais informações em:\n
+        Site: www.macs.org.br\n
+        Facebook: www.facebook.com/MACSMuseu\n
+        Tel.: +55 (15) 3233-1692</string>
+    <string name="whatisMACS">O Museu de Arte Contemporânea de Sorocaba,
         é uma instituição cultural eminentemente artística e educativa, espaço dinâmico e plural que prioriza a
         difusão das artes visuais. É uma instituição aberta e acessível a todas as camadas da população e seu
         acervo terá foco na arte contemporânea brasileira.</string>

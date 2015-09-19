@@ -1,21 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.museu.macs.fragments.HomeFragment">
+    tools:context="app.museu.macs.fragments.HomeFragment"
+    xmlns:ext="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/macs_chale"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/imageView"
-        android:id="@+id/textView"
-        android:textColor="@color/black"
-        android:text="@string/whatisMACS"/>
-</RelativeLayout>
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/presentationText"
+            android:layout_below="@id/imageView"
+            ext:documentView_text="@string/whatisMACS"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textFormat="plain"
+            ext:documentView_textSize="18sp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shareTitleText"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/presentationText"
+            ext:documentView_text="@string/share_title2"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textStyle="bold"
+            ext:documentView_textSize="24sp"
+            ext:documentView_textFormat="formatted"/>
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shareTextHome"
+            android:layout_below="@id/shareTitleText"
+            ext:documentView_text="@string/commend_text"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textFormat="plain"
+            ext:documentView_textSize="18sp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"/>
+
+    </RelativeLayout>
+</ScrollView>

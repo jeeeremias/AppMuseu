@@ -1,9 +1,6 @@
 package app.museu.macs.fragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,13 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.concurrent.ExecutionException;
-
 import app.museu.macs.R;
 import app.museu.macs.activities.HomeActivity;
-import app.museu.macs.async.ProfilePhoto;
 
 
 /**
@@ -48,8 +40,6 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -64,15 +54,18 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+//        DocumentView documentView = (DocumentView) view.findViewById(R.id.presentationText); //new DocumentView(getActivity(), DocumentView.PLAIN_TEXT);  // Support plain text
+//        documentView.getDocumentLayoutParams().setTextAlignment(TextAlignment.JUSTIFIED);
+//        documentView.setText(getString(R.string.whatisMACS).toString()); // Set to `true` to enable justification
+
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        this.mainImageView = (ImageView) view.findViewById(R.id.imageView);
-        this.mainImageView.setImageResource(R.drawable.imagehome01);
     }
 
     @Override

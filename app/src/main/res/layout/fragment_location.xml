@@ -1,49 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="app.museu.macs.fragments.LocationFragment"
-    xmlns:bootstrap="http://schemas.android.com/apk/res-auto">
+    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    xmlns:ext="http://schemas.android.com/apk/res-auto">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/location_item"
-        android:id="@+id/titleLocation"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@color/black"
-        android:padding="5dp"/>
-
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:id="@+id/imageLocationMap"
-        android:layout_below="@+id/titleLocation"
-        android:src="@drawable/locationimage"
-        android:layout_centerHorizontal="true"
-        android:padding="5dp"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/addressText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/address"
-        android:textColor="@color/black"
-        android:layout_below="@+id/imageLocationMap"
-        android:layout_centerHorizontal="true"
-        android:padding="5dp" />
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleLocation"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            ext:documentView_text="@string/location_item"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textStyle="bold"
+            ext:documentView_textSize="24sp"
+            ext:documentView_textFormat="plain"/>
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/buttonHowToGet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@id/addressText"
-        android:text="@string/text_how_to_get"
-        android:layout_centerHorizontal="true"
-        bootstrap:bb_icon_left="fa-location-arrow"
-        bootstrap:bb_type="primary" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:id="@+id/imageLocationMap"
+            android:layout_below="@+id/titleLocation"
+            android:src="@drawable/macs_aerea"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
-</RelativeLayout>
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonHowToGet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageLocationMap"
+            android:text="@string/text_how_to_get"
+            android:layout_centerHorizontal="true"
+            bootstrap:bb_icon_left="fa-location-arrow"
+            bootstrap:bb_type="primary" />
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressText1"
+            android:layout_below="@id/buttonHowToGet"
+            ext:documentView_text="@string/address_line1"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textFormat="formatted"
+            ext:documentView_textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contactText1"
+            android:layout_below="@id/addressText1"
+            ext:documentView_text="@string/contact_line1"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textFormat="formatted"
+            ext:documentView_textSize="18sp"/>
+
+    </RelativeLayout>
+
+</ScrollView>
