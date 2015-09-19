@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
@@ -208,8 +207,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
                 .setOnClickFooter(onClickFooter)
                 .build();
         this.footerItem(getString(R.string.share_title), R.drawable.ic_people_black_24dp);
-        this.userName.setText("MACS - Museu de Arte Contemporânea de Sorocaba");
-        this.userPhoto.setImageResource(R.drawable.userphoto);
+        this.userBackground.setImageResource(R.drawable.logo_macs2);
     }
 
     public void share() {
@@ -217,6 +215,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_footer));
         sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.whatsapp");
         startActivity(sendIntent);
     }
 

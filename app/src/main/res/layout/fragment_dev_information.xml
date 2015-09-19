@@ -1,42 +1,46 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-    tools:context="app.museu.macs.fragments.DevInformationFragment">
+    tools:context="app.museu.macs.fragments.DevInformationFragment"
+    xmlns:ext="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="30dp">
 
-        <TextView
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/infoDevTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/black"
-            android:text="@string/info_dev_title"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp" />
+            ext:documentView_text="@string/info_dev_title"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textStyle="bold"
+            ext:documentView_textSize="24sp"
+            ext:documentView_textFormat="formatted"/>
 
-        <TextView
-            android:id="@+id/infoProjectText3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/infoProjectText"
             android:layout_below="@id/infoDevTitle"
-            android:textColor="@color/black"
-            android:text="@string/info_dev_text"
-            android:layout_margin="5dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            ext:documentView_text="@string/info_dev_text"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/emailDev"
+        <com.bluejamesbond.text.DocumentView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/infoProjectText3"
-            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailDev"
+            android:layout_below="@id/infoProjectText"
             android:layout_centerHorizontal="true"
-            android:text="@string/dev_email"
-            android:layout_margin="5dp"/>
+            ext:documentView_text="@string/dev_email"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textSize="18sp"
+            ext:documentView_textFormat="plain"/>
 
     </RelativeLayout>
 </ScrollView>
