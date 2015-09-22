@@ -1,5 +1,6 @@
 package app.museu.macs.util;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -29,7 +30,7 @@ public class ParseWeekViewEvent {
             weekViewEvent.setName(json.getString("summary"));
         } catch (JSONException e) {
             e.printStackTrace();
-            weekViewEvent.setName("Error: Name empty");
+            weekViewEvent.setName("Evento");
         }
 
         try {
@@ -47,7 +48,7 @@ public class ParseWeekViewEvent {
         }
 
         weekViewEvent.setStartTime(startDateTime);
-        weekViewEvent.setColor(R.color.red);
+        weekViewEvent.setColor(Color.RED);
 
         try {
             end = json.getJSONObject("end").getString("dateTime");

@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/infoDevTitle"
             android:layout_alignParentTop="true"
+            ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/info_dev_title"
             ext:documentView_textAlignment="center"
             ext:documentView_textStyle="bold"
@@ -27,6 +28,7 @@
             android:layout_below="@id/infoDevTitle"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
+            ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/info_dev_text"
             ext:documentView_textAlignment="justified"
             ext:documentView_textSize="18sp"/>
@@ -37,6 +39,7 @@
             android:id="@+id/emailDev"
             android:layout_below="@id/infoProjectText"
             android:layout_centerHorizontal="true"
+            ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/dev_email"
             ext:documentView_textAlignment="justified"
             ext:documentView_textSize="18sp"

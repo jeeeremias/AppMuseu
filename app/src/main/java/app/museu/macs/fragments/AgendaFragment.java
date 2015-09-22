@@ -159,11 +159,6 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
         }
     }
 
-    private String getEventTitle(java.util.Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(java.util.Calendar.HOUR_OF_DAY), time.get(java.util.Calendar.MINUTE), time.get(java.util.Calendar.MONTH)+1, time.get(java.util.Calendar.DAY_OF_MONTH));
-    }
-
-
     public List<WeekViewEvent> getEvents() {
         return events;
     }

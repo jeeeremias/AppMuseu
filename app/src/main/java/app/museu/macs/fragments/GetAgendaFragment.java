@@ -39,8 +39,6 @@ public class GetAgendaFragment extends Fragment {
     public static GetAgendaFragment newInstance(HomeActivity homeActivity) {
         GetAgendaFragment fragment = new GetAgendaFragment();
         fragment.setHomeActivity(homeActivity);
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
