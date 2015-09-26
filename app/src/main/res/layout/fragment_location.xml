@@ -13,13 +13,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/titleLocation"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/location_item"
             ext:documentView_textAlignment="center"
             ext:documentView_textStyle="bold"
             ext:documentView_textSize="24sp"
-            ext:documentView_textFormat="plain"/>
+            ext:documentView_textFormat="formatted"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -29,8 +29,8 @@
             android:layout_below="@id/titleLocation"
             android:src="@drawable/macs_aerea"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"/>
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/buttonHowToGet"
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/imageLocationMap"
             android:text="@string/text_how_to_get"
+            android:layout_marginBottom="30dp"
             android:layout_centerHorizontal="true"
             bootstrap:bb_icon_left="fa-location-arrow"
             bootstrap:bb_type="primary" />
@@ -47,21 +48,70 @@
             android:layout_height="wrap_content"
             android:id="@+id/addressText1"
             android:layout_below="@id/buttonHowToGet"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             ext:documentView_text="@string/address_line1"
             ext:documentView_textAlignment="center"
             ext:documentView_textFormat="formatted"
             ext:documentView_textColor="@color/black"
             ext:documentView_textSize="18sp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"/>
 
         <com.bluejamesbond.text.DocumentView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contactText1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_below="@id/addressText1"
             ext:documentView_textColor="@color/black"
+            ext:documentView_textStyle="bold"
             ext:documentView_text="@string/contact_line1"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textFormat="formatted"
+            ext:documentView_textSize="18sp"/>
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/site"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@id/contactText1"
+            android:onClick="onClick"
+            android:clickable="true"
+            ext:documentView_textColor="@color/black"
+            ext:documentView_text="@string/site"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textFormat="formatted"
+            ext:documentView_textSize="18sp"/>
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/facebook"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_below="@id/site"
+            ext:documentView_textColor="@color/black"
+            ext:documentView_text="@string/facebook"
+            ext:documentView_textAlignment="center"
+            ext:documentView_textFormat="formatted"
+            ext:documentView_textSize="18sp"/>
+
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@id/facebook"
+            ext:documentView_textColor="@color/black"
+            ext:documentView_text="@string/phone"
             ext:documentView_textAlignment="center"
             ext:documentView_textFormat="formatted"
             ext:documentView_textSize="18sp"/>

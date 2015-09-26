@@ -42,18 +42,8 @@ public class PostYourPhotoFragment extends Fragment {
     private HomeActivity homeActivity;
     private BootstrapEditText bootstrapEditText;
     private ImageView imageView;
-    BootstrapButton bootstrapButton;
+    private BootstrapButton bootstrapButton;
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostYourPhotoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PostYourPhotoFragment newInstance(HomeActivity homeActivity) {
         PostYourPhotoFragment fragment = new PostYourPhotoFragment();
         fragment.setHomeActivity(homeActivity);

@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import app.museu.macs.R;
 import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.async.CalendarEvents;
+import app.museu.macs.util.EnumFragment;
 
 
 /**
@@ -48,19 +49,17 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
     private OnFragmentInteractionListener mListener;
     private HomeActivity homeActivity;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment AgendaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AgendaFragment newInstance(HomeActivity homeActivity) {
-        AgendaFragment fragment = new AgendaFragment();
-        Bundle args = new Bundle();
-        fragment.setHomeActivity(homeActivity);
-        fragment.setArguments(args);
-        return fragment;
+        if (homeActivity.getWeekViewEvents() != null) {
+            AgendaFragment fragment = new AgendaFragment();
+            fragment.setHomeActivity(homeActivity);
+            fragment.setEvents(homeActivity.getWeekViewEvents());
+            return fragment;
+        } else {
+            homeActivity.showLoading("Aguarde", "Carregando a agenda...");
+            new CalendarEvents(homeActivity).execute();
+        }
+        return null;
     }
 
     public AgendaFragment() {
@@ -70,7 +69,6 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setEvents(homeActivity.getWeekViewEvents());
     }
 
     @Override
@@ -150,12 +148,11 @@ public class AgendaFragment extends Fragment implements WeekView.MonthChangeList
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-
-        if(populated == false) {
+        if(populated) {
+            return eventsEmpty;
+        } else {
             populated = true;
             return events;
-        } else {
-            return eventsEmpty;
         }
     }
 

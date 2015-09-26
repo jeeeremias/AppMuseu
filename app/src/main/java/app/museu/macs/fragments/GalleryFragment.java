@@ -40,24 +40,19 @@ public class GalleryFragment extends Fragment {
      * fragment.
      */
     private GridView gridViewGallery;
-    private List<GalleryPhoto> galleryPhotos;
     private OnFragmentInteractionListener mListener;
     private HomeActivity homeActivity;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param titlle Parameter 1.
-     * @return A new instance of fragment GalleryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static GalleryFragment newInstance(HomeActivity homeActivity) {
-        GalleryFragment fragment = new GalleryFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        fragment.setHomeActivity(homeActivity);
-        return fragment;
+        if(homeActivity.getGalleryPhotos() != null) {
+            GalleryFragment fragment = new GalleryFragment();
+            fragment.setHomeActivity(homeActivity);
+            return fragment;
+        } else {
+            homeActivity.showLoading("Aguarde", "Carregando imagens da galeria...");
+            new GalleryPhotos(homeActivity).execute();
+        }
+        return null;
     }
 
     public GalleryFragment() {
@@ -82,11 +77,8 @@ public class GalleryFragment extends Fragment {
                 homeActivity.getFragmentBuilder().newFragment(EnumFragment.DISPLAY_IMAGE_FRAGMENT);
             }
         });
-        homeActivity.getProgressDialog().setTitle("Aguarde");
-        homeActivity.getProgressDialog().setMessage("Carregando imagens da galeria...");
-        homeActivity.getProgressDialog().setCancelable(false);
-        homeActivity.getProgressDialog().show();
-        new GalleryPhotos(this, homeActivity).execute();
+
+        setAdapterGrid();
 
         return view;
     }
@@ -132,16 +124,8 @@ public class GalleryFragment extends Fragment {
         this.homeActivity = homeActivity;
     }
 
-    public List<GalleryPhoto> getGalleryPhotos() {
-        return galleryPhotos;
-    }
-
-    public void setGalleryPhotos(List<GalleryPhoto> galleryPhotos) {
-        this.galleryPhotos = galleryPhotos;
-    }
-
     public void setAdapterGrid() {
-        gridViewGallery.setAdapter(new GalleryAdapter(MyApplication.getAppContext(), galleryPhotos, getHomeActivity().getImageLoader()));
+        gridViewGallery.setAdapter(new GalleryAdapter(MyApplication.getAppContext(), homeActivity.getGalleryPhotos(), homeActivity.getImageLoader()));
     }
 
 }

@@ -3,23 +3,19 @@ package app.museu.macs.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -30,7 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import app.museu.macs.R;
-import app.museu.macs.async.ProfilePhoto;
 import app.museu.macs.model.GalleryPhoto;
 import app.museu.macs.model.PostFacebook;
 import app.museu.macs.util.EnumFragment;
@@ -43,7 +38,6 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces.OnItemClickListener {
 
     private HelpLiveo mHelpLiveo;
-    final private String sourcePhoto = "userPhoto";
     private ImageLoader imageLoader;
     private PostFacebook postFacebook = null;
     private ProgressDialog progressDialog;
@@ -56,10 +50,7 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     /**
      * Required variables to login Facebook
      */
-    private AccessToken accessToken;
-    private Profile profile;
     private CallbackManager callbackManager;
-    private AccessTokenTracker tokenTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +60,6 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         // Facebook implementations
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        accessToken = AccessToken.getCurrentAccessToken();
-        profile = Profile.getCurrentProfile();
-        tokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                accessToken = currentAccessToken;
-                profile = Profile.getCurrentProfile();
-            }
-        };
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -89,15 +71,12 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
                     @Override
                     public void onCancel() {
-                        Log.i("Login Facebook", "onCancel");
+                        showToast("Erro ao fazer login com o Facebook");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Log.i("Login Facebook", "onError");
-                        exception.printStackTrace();
-                        toast.setText("Erro ao fazer o login com o Facebook");
-                        toast.show();
+                        showToast("Erro ao fazer login com o Facebook");
                     }
                 });
 
@@ -131,14 +110,13 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
     @Override
     protected void onStop() {
         super.onStop();
-        tokenTracker.stopTracking();
+        weekViewEvents = null;
+        galleryPhotos = null;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        tokenTracker.startTracking();
-        profile = Profile.getCurrentProfile();
     }
 
     @Override
@@ -216,26 +194,46 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
         sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_footer));
         sendIntent.setType("text/plain");
         sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-    }
-
-    public void updateLogin() {
-        this.userName.setText(profile.getFirstName());
-        Bitmap bitmapFromArchive = BitmapFactory.decodeFile(getApplicationContext().getFilesDir() + "/" + sourcePhoto);
-        if (bitmapFromArchive == null) {
-            new ProfilePhoto(this).execute();
+        if(sendIntent.resolveActivity(getPackageManager()) != null){
+            startActivity(sendIntent);
         } else {
-            this.userPhoto.setImageBitmap(bitmapFromArchive);
+            showToast("Aplicativo WhatsApp não encontrado");
         }
-        this.footerItem("Logout", R.drawable.fbicon);
     }
 
-    public void updateLogout() {
-        this.footerItem("Login", R.drawable.fbicon);
+    public void showToast(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void showLoading(String title, String message) {
+        progressDialog.setTitle(title);
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public boolean isDeviceOnline() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
     public void loginFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        if(!isDeviceOnline()) {
+            showToast("Sem conexão com a internet");
+        } else {
+            if (galleryPhotos != null) {
+                fragmentBuilder.newFragment(EnumFragment.GALLERY_FRAGMENT);
+            } else {
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+            }
+        }
     }
 
     public ImageLoader getImageLoader() {
@@ -288,13 +286,5 @@ public class HomeActivity extends NavigationLiveo implements br.liveo.interfaces
 
     public void setImageToDisplay(int imageToDisplay) {
         this.imageToDisplay = imageToDisplay;
-    }
-
-    public Toast getToast() {
-        return toast;
-    }
-
-    public void setToast(Toast toast) {
-        this.toast = toast;
     }
 }

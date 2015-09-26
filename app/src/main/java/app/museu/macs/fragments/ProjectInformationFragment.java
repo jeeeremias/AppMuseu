@@ -22,17 +22,8 @@ import app.museu.macs.activities.HomeActivity;
 public class ProjectInformationFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    HomeActivity homeActivity;
+    private HomeActivity homeActivity;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProjectInformationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ProjectInformationFragment newInstance(HomeActivity homeActivity) {
         ProjectInformationFragment fragment = new ProjectInformationFragment();
         fragment.setHomeActivity(homeActivity);

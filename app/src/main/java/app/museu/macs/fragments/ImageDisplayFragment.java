@@ -41,15 +41,6 @@ public class ImageDisplayFragment extends Fragment {
     private ImageLoader imageLoader;
     private GalleryPhoto galleryPhoto;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ImageDisplayFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ImageDisplayFragment newInstance(HomeActivity homeActivity) {
         ImageDisplayFragment fragment = new ImageDisplayFragment();
         fragment.setHomeActivity(homeActivity);

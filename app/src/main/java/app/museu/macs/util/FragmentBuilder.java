@@ -13,7 +13,6 @@ import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.fragments.AgendaFragment;
 import app.museu.macs.fragments.DevInformationFragment;
 import app.museu.macs.fragments.GalleryFragment;
-import app.museu.macs.fragments.GetAgendaFragment;
 import app.museu.macs.fragments.HomeFragment;
 import app.museu.macs.fragments.ImageDisplayFragment;
 import app.museu.macs.fragments.LocationFragment;
@@ -52,22 +51,19 @@ public class FragmentBuilder {
                 fragmentStack.push(index);
                 fragment = HomeFragment.newInstance();
                 break;
-            case EnumFragment.GET_AGENDA_FRAGMENT:
-                fragmentStack.push(index);
-                fragment = GetAgendaFragment.newInstance(homeActivity);
-                break;
             case EnumFragment.GALLERY_FRAGMENT:
                 fragmentStack.push(index);
                 fragment = GalleryFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.LOCATION_FRAGMENT:
                 fragmentStack.push(index);
-                fragment = LocationFragment.newInstance();
+                fragment = LocationFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.POST_YOUR_PHOTO_FRAGMENT:
                 fragment = PostYourPhotoFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.AGENDA_FRAGMENT:
+                fragmentStack.push(index);
                 fragment = AgendaFragment.newInstance(homeActivity);
                 break;
             case EnumFragment.DISPLAY_IMAGE_FRAGMENT:
@@ -92,13 +88,12 @@ public class FragmentBuilder {
                     .beginTransaction()
                     .replace(R.id.container, fragment)
                     .commit();
+        } else {
+            fragmentStack.pop();
         }
     }
 
-    private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) homeActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
+    private void setLoading(String tittle, String message) {
+
     }
 }

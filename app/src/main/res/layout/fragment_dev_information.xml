@@ -19,6 +19,7 @@
             ext:documentView_textAlignment="center"
             ext:documentView_textStyle="bold"
             ext:documentView_textSize="24sp"
+            android:layout_marginBottom="20dp"
             ext:documentView_textFormat="formatted"/>
 
         <com.bluejamesbond.text.DocumentView
@@ -26,7 +27,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/infoProjectText"
             android:layout_below="@id/infoDevTitle"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/info_dev_text"
