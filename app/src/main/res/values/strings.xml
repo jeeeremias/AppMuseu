@@ -23,17 +23,17 @@
         Poste o sua foto.\nCompartilhe suas experiências.\n
         Comece digitando uma mensagem bem contagiante para
         fazer inveja aos seus amigos:</string>
-    <string name="share_footer">Olá, o MACS - Museu de Arte Contemporânea de Sorocaba,
-        agora possui um aplicativo, onde você pode ficar por dentro das principais novidades e atividades do museu.
+    <string name="share_footer">Confira o aplicativo do MACS - Museu de Arte Contemporânea de Sorocaba,
+        fique por dentro das principais novidades e atividades do museu. Baixe em: https://play.google.com/store/apps/details?id=app.museu.macs
     Se você possui um celular com Android, baixe agora mesmo! Está disponível na Google Play ;)</string>
     <string name="login">Login com Facebook</string>
     <string name="logout">Logout</string>
     <string name="address_line1">Av. Dr. Afonso Vergueiro, 288\n
         CEP 18035-370, Centro - Sorocaba-SP</string>
-    <string name="contact_line1">Mais informações em:\n
-        Site: www.macs.org.br\n
-        Facebook: www.facebook.com/MACSMuseu\n
-        Tel.: +55 (15) 3233-1692</string>
+    <string name="contact_line1">Mais informações em:</string>
+    <string name="site">Site: www.macs.org.br</string>
+    <string name="facebook">Facebook: www.facebook.com/MACSMuseu</string>
+    <string name="phone">Tel.: +55 (15) 3233-1692</string>
     <string name="whatisMACS">O Museu de Arte Contemporânea de Sorocaba,
         é uma instituição cultural eminentemente artística e educativa, espaço dinâmico e plural que prioriza a
         difusão das artes visuais. É uma instituição aberta e acessível a todas as camadas da população e seu

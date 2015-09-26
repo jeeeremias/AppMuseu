@@ -24,15 +24,6 @@ public class DevInformationFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private HomeActivity homeActivity;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DevInformationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DevInformationFragment newInstance(HomeActivity homeActivity) {
         DevInformationFragment fragment = new DevInformationFragment();
         fragment.setHomeActivity(homeActivity);

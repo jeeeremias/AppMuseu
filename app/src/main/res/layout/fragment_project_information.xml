@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:src="@drawable/hacklab_sor"
-            android:layout_margin="20dp"
+            android:layout_margin="30dp"
             android:layout_below="@id/infoProjectTitle"/>
 
         <com.bluejamesbond.text.DocumentView
@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/infoProjectText"
             android:layout_below="@id/imageHackLab"
+            android:layout_marginBottom="20dp"
             ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/info_project_text"
             ext:documentView_textAlignment="justified"
@@ -46,7 +47,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/infoProjectTitle2"
             android:layout_below="@id/infoProjectText"
-            android:layout_margin="20dp"
             ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/info_project_title2"
             ext:documentView_textAlignment="center"
@@ -58,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:id="@+id/linearLayoutInfo"
             android:layout_below="@id/infoProjectTitle2">
 
@@ -83,7 +85,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/infoProjectText2"
             android:layout_below="@id/linearLayoutInfo"
-            android:layout_marginTop="20dp"
             ext:documentView_textColor="@color/black"
             ext:documentView_text="@string/info_project_text2"
             ext:documentView_textAlignment="justified"

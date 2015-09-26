@@ -2,6 +2,7 @@ package app.museu.macs.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.bluejamesbond.text.DocumentView;
 
 import java.util.Locale;
 
 import app.museu.macs.R;
+import app.museu.macs.activities.HomeActivity;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 /**
@@ -28,20 +31,12 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 public class LocationFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    BootstrapButton bootstrapButton;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LocationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LocationFragment newInstance() {
+    private BootstrapButton bootstrapButton;
+    private HomeActivity homeActivity;
+
+    public static LocationFragment newInstance(HomeActivity homeActivity) {
         LocationFragment fragment = new LocationFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        fragment.setHomeActivity(homeActivity);
         return fragment;
     }
 
@@ -68,6 +63,42 @@ public class LocationFragment extends Fragment {
                 String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 getActivity().startActivity(intent);
+            }
+        });
+
+        DocumentView site = (DocumentView) view.findViewById(R.id.site);
+        site.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setPackage("com.android.chrome");
+                intent.setData(Uri.parse("www.macs.org.br"));
+                if(intent.resolveActivity(getHomeActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    getHomeActivity().showToast("Google Chrome não encontrado");
+                }
+            }
+        });
+
+        DocumentView facebook = (DocumentView) view.findViewById(R.id.facebook);
+        site.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String facebookUrl = "https://www.facebook.com/MACSMuseu";
+                try {
+                    int versionCode = getHomeActivity().getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+                    if (versionCode >= 3002850) {
+                        Uri uri = Uri.parse("fb://facewebmodal/f?href=" + facebookUrl);
+                        startActivity(new Intent(Intent.ACTION_VIEW, uri));;
+                    } else {
+                        // open the Facebook app using the old method (fb://profile/id or fb://page/id)
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/866359736786937")));
+                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    // Facebook is not installed. Open the browser
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl)));
+                }
             }
         });
         return view;
@@ -104,6 +135,14 @@ public class LocationFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public HomeActivity getHomeActivity() {
+        return homeActivity;
+    }
+
+    public void setHomeActivity(HomeActivity homeActivity) {
+        this.homeActivity = homeActivity;
     }
 
 }

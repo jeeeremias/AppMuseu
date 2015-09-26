@@ -31,82 +31,77 @@ import javax.net.ssl.HttpsURLConnection;
 import app.museu.macs.activities.HomeActivity;
 import app.museu.macs.fragments.GalleryFragment;
 import app.museu.macs.model.GalleryPhoto;
+import app.museu.macs.util.EnumFragment;
+import app.museu.macs.util.FragmentBuilder;
 
 /**
  * Created by jeremias on 25/06/15.
  */
-public class GalleryPhotos extends AsyncTask<Void, Void, Void> {
+public class GalleryPhotos extends AsyncHomeActivityTasks {
 
-    private GalleryFragment galleryFragment;
     private List<GalleryPhoto> galleryPhotos = new ArrayList<GalleryPhoto>();
-    private HomeActivity homeActivity;
 
-    public GalleryPhotos(GalleryFragment galleryFragment, HomeActivity homeActivity) {
-        this.galleryFragment = galleryFragment;
-        this.homeActivity = homeActivity;
+    public GalleryPhotos(HomeActivity homeActivity) {
+        super(homeActivity);
     }
 
     @Override
     protected Void doInBackground(Void... params) {
+        if(getHomeActivity().isDeviceOnline()) {
 
-        URL next = null;
-        JSONObject jsonObject;
-        JSONArray jsonArray;
-        InputStream inputStream;
+            URL next = null;
+            JSONObject jsonObject;
+            JSONArray jsonArray;
+            InputStream inputStream;
 
-        GraphRequest albumGraphRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), "/866359736786937", new GraphRequest.Callback() {
-            @Override
-            public void onCompleted(GraphResponse graphResponse) {
-                // Finish
-            }
-        });
-        Bundle picParameters = new Bundle();
-        picParameters.putString("fields", "photos{id,picture,source}");
-        albumGraphRequest.setParameters(picParameters);
-        GraphResponse albumGraphResponse = albumGraphRequest.executeAndWait();
-        GalleryPhoto galleryPhoto;
-        try {
-            jsonObject = albumGraphResponse.getJSONObject().getJSONObject("photos");
-            String responseJSON;
-            while(true) {
-                jsonArray = jsonObject.getJSONArray("data");
-                int size = jsonArray.length();
-                JSONObject temp;
-                for (int i = 0; i < size; i ++) {
-                    temp = jsonArray.getJSONObject(i);
-                    galleryPhoto = new GalleryPhoto(temp.getString("id"), "", temp.getString("picture"), temp.getString("source"));
-                    galleryPhotos.add(galleryPhoto);
-                }
-                try{
-                    next = new URL(jsonObject.getJSONObject("paging").getString("next"));
-                } catch (JSONException e){
-                    e.printStackTrace();
-                    break;
-                }
-                HttpsURLConnection urlConnection = (HttpsURLConnection) next.openConnection();
-                inputStream = urlConnection.getInputStream();
-                BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                responseJSON = streamReader.readLine();
-                jsonObject = new JSONObject(responseJSON);
-            }
-
-            galleryFragment.setGalleryPhotos(galleryPhotos);
-
-            galleryFragment.getHomeActivity().runOnUiThread(new Runnable() {
+            GraphRequest albumGraphRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), "/866359736786937", new GraphRequest.Callback() {
                 @Override
-                public void run() {
-                    galleryFragment.setAdapterGrid();
+                public void onCompleted(GraphResponse graphResponse) {
+                    // Finish
                 }
             });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Bundle picParameters = new Bundle();
+            picParameters.putString("fields", "photos{id,picture,source}");
+            albumGraphRequest.setParameters(picParameters);
+            GraphResponse albumGraphResponse = albumGraphRequest.executeAndWait();
+            GalleryPhoto galleryPhoto;
+            try {
+                jsonObject = albumGraphResponse.getJSONObject().getJSONObject("photos");
+                String responseJSON;
+                while(true) {
+                    jsonArray = jsonObject.getJSONArray("data");
+                    int size = jsonArray.length();
+                    JSONObject temp;
+                    for (int i = 0; i < size; i ++) {
+                        temp = jsonArray.getJSONObject(i);
+                        galleryPhoto = new GalleryPhoto(temp.getString("id"), "", temp.getString("picture"), temp.getString("source"));
+                        galleryPhotos.add(galleryPhoto);
+                    }
+                    try{
+                        next = new URL(jsonObject.getJSONObject("paging").getString("next"));
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                        break;
+                    }
+                    HttpsURLConnection urlConnection = (HttpsURLConnection) next.openConnection();
+                    inputStream = urlConnection.getInputStream();
+                    BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                    responseJSON = streamReader.readLine();
+                    jsonObject = new JSONObject(responseJSON);
+                }
+                getHomeActivity().setGalleryPhotos(galleryPhotos);
+                getHomeActivity().getFragmentBuilder().newFragment(EnumFragment.GALLERY_FRAGMENT);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            getHomeActivity().showToast("Sem conexão com a internet");
         }
-        homeActivity.setGalleryPhotos(galleryPhotos);
-        homeActivity.getProgressDialog().cancel();
+        getHomeActivity().getProgressDialog().cancel();
         return null;
     }
 }
