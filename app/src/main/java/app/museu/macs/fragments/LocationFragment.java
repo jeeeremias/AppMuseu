@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.bluejamesbond.text.DocumentView;
 
+import java.net.URI;
 import java.util.Locale;
 
 import app.museu.macs.R;
@@ -60,9 +61,15 @@ public class LocationFragment extends Fragment {
             public void onClick(View v) {
                 double latitude = -23.4964309;
                 double longitude = -47.453988;
-                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                getActivity().startActivity(intent);
+                Uri uri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setPackage("com.google.android.apps.maps");
+                if(intent.resolveActivity(getActivity().getPackageManager()) != null){
+                    getActivity().startActivity(intent);
+                } else {
+                    getHomeActivity().showToast("Aplicativo do Google Maps não encontrado");
+                }
+
             }
         });
 
