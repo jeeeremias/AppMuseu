@@ -38,9 +38,7 @@
             android:layout_margin="10dp"
             android:textColor="@color/black"
             android:hint="rounded"
-            android:layout_below="@id/shareText"
-            bootstrap:be_roundedCorners="true"
-            bootstrap:be_state="success" />
+            android:layout_below="@id/shareText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,9 +64,7 @@
             android:layout_margin="10dp"
             android:layout_below="@id/selectedPicture"
             android:text="@string/text_button_chose_picture"
-            android:layout_centerHorizontal="true"
-            bootstrap:bb_icon_left="fa-facebook-official"
-            bootstrap:bb_type="primary" />
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 </ScrollView>

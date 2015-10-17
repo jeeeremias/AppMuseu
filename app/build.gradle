@@ -12,8 +12,8 @@ android {
         applicationId "app.museu.macs"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "2.3"
     }
     buildTypes {
         release {
@@ -25,12 +25,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:21.1.2'
     compile 'com.facebook.android:facebook-android-sdk:4.3.0'
     compile 'br.com.liveo:navigationdrawer-material:2.3.2'
     compile 'com.github.alamkanak:android-week-view:1.2.3'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    compile 'com.beardedhen:androidbootstrap:+'
+    compile 'com.beardedhen:androidbootstrap:2.0.0'
     compile 'it.sephiroth.android.library.imagezoom:imagezoom:+'
     compile 'com.github.bluejamesbond:textjustify-android:2.1.1'
 }
